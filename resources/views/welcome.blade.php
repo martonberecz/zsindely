@@ -80,7 +80,7 @@
         //*********************roof forms***********************/
             function getRoofs() {
                 let toappend = "";
-                fetch('http://localhost:8000/api/roofs')
+                fetch('http://142.93.170.119/api/roofs')
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (roof) {
@@ -105,7 +105,7 @@ let mainForm ={};
                     '<div class="card-body">'+
                     '<p class="card-text"><form>';
             
-            fetch('http://localhost:8000/api/fields')
+            fetch('http://142.93.170.119/api/fields')
                 .then((res) => res.json())
                 .then((data) => {
                     data.data.forEach(function (field) {
