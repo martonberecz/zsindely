@@ -156,7 +156,7 @@ let testArray = {};
                     '<th>Tétel szövege</th><th>Mennyiseg</th><th>Egység</th>'+
                     '<th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th></tr></thead><tbody>';
                 //fetch('http://localhost:8000/api/kalks')
-                fetch('142.93.170.119/api/kalks')
+                fetch('http://142.93.170.119/api/kalks')
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (optional) {
