@@ -49,7 +49,9 @@
 
 
             </style>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </head>
     <body>
         <div class="container-fluid">            
@@ -69,9 +71,7 @@
         </div>
         
         
-            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            
     <script>
 
         function _(id){
@@ -96,8 +96,7 @@
                 document.getElementById("main").innerHTML = toappend;  
                     })
             }
-           getRoofs();
-let mainForm ={};
+           getRoofs(); 
         function getForm(id,imgId) { 
            let formfields = "";
 
@@ -116,7 +115,8 @@ let mainForm ={};
                         });
                         //console.log(found);
                         if(field.id == found){ 
-                                formfields += `<div class="form-group"><label for="${field.fieldName}">${field.fieldName}</label><input type="text" name="${field.fieldName}" class="form-control" id="${found}" onblur="storeMain('${field.fieldName}','${field.id}')"></div>`;                                                                                                                                              
+                                formfields += `<div class="form-group"><label for="${field.fieldName}">${field.fieldName}</label><input id="${field.fieldName}" type="text" name="${field.fieldName}" class="form-control" onblur="storeMain('${field.fieldName}','${field.id}')"></div>`;                                                                                                                                              
+                                
                             }
                         })
                         formfields += '<button type="submit" class="btn btn-primary" onclick="getOptional(event)">Submit</button></form></p></div></div>';
@@ -136,9 +136,13 @@ let mainForm ={};
                     })
                     getForm(fields,id);
          }
-    
+let testArray = {};
     function storeMain(name, id){
-        console.log(name+','+id+','+_(id).value);
+        console.log(id);        
+        let inputValue = document.getElementById(name).value;
+        testArray[id] = inputValue;      
+        console.log(testArray);
+
     }
 
     function getOptional(e) {
@@ -151,13 +155,17 @@ let mainForm ={};
                     '<table class="table table-striped table-sm"><thead><tr>'+
                     '<th>Tétel szövege</th><th>Mennyiseg</th><th>Egység</th>'+
                     '<th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th></tr></thead><tbody>';
-                //fetch('http://localhost:8000/api/kalks')
-                fetch('142.93.170.119/api/kalks')
+                fetch('http://localhost:8000/api/kalks')
+                //fetch('142.93.170.119/api/kalks')
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (optional) {
                             if(optional.opcionalis == 1){
-                                optionals += `<tr><td>${optional.title}</td><td><input type="text" class="form-control" id="mennyiseg${optional.id}" placeholder="0" onblur="fuvarmozg(${optional.id})" onkeyup="optionalSumFunc(${optional.id})"></td><td>${optional.egyseg}</td><td id="egysegar${optional.id}">${optional.egysegar}</td><td id="dijegysegre${optional.id}">${optional.dijegysegre}</td><td><input type="text" class="form-control" id="anyagSum${optional.id}" aria-describedby="emailHelp" placeholder="0"></td><td><input type="text" class="form-control" id="sum${optional.id}" placeholder="0"></td></tr>`;
+                                optionals += `<tr><td>${optional.title}</td><td>`+
+                                `<input type="text" class="form-control" id="${optional.id}" placeholder="0" onblur="fuvarmozg(${optional.id})" onkeyup="optionalSumFunc(${optional.id})"></td>`+
+                                `<td>${optional.egyseg}</td><td id="egysegar${optional.id}">${optional.egysegar}</td><td id="dijegysegre${optional.id}">${optional.dijegysegre}</td>`+
+                                `<td><input type="text" class="form-control" id="anyagSum${optional.id}" placeholder="0"></td>`+
+                                `<td><input type="text" class="form-control" id="sum${optional.id}" placeholder="0"></td></tr>`;
                             }
                 })
                           
@@ -192,9 +200,12 @@ function fuvarmozg(id){
     _("egysegar12").innerHTML=mozgatas;
 }
 
+let optionalValues = {};
     function optionalSumFunc(id){         
-
-        let amount = _("mennyiseg"+id).value;
+        let amount = _(id).value;
+        optionalValues['id'+id]=id;
+        optionalValues[id]= amount;
+        console.log(optionalValues);       
         let anyag = (amount * parseInt(_("egysegar"+id).innerHTML));
         let dijEgyseg = (amount * parseInt(_("dijegysegre"+id).innerHTML));
 
@@ -215,21 +226,62 @@ function getSummary(e){
     '<th>Tétel szövege</th><th>Egység</th><th>Mennyiseg</th>'+
     '</tr></thead><tbody class="inner">';
 
-    //fetch('http://localhost:8000/api/kalks')142.93.170.119
+    //fetch('http://localhost:8000/api/kalks')
     fetch('http://142.93.170.119/api/kalks')
         .then((res) => res.json())
         .then((data) => {                        
-            data.data.forEach(function (optional) {                       
-                let something = '<tr><td>'+optional.title+'</td><td id="egyseg'+optional.id+'>'+optional.egyseg+'</td><td id="mennyiseg'+optional.id+'></td></tr>';   
-                console.log(document.getElementById("egyseg"+optional.id));             
-                    $(".inner").append(something);  
-                    if(_("egyseg"+optional.id) != null){
-                        _("egyseg"+optional.id).innerHTML = optional.egyseg;                          
-                    }
+            data.data.forEach(function (optional) {
+                let something = '<tr><td>'+optional.title+'</td><td>'+optional.egyseg+'</td><td>'+((optional.id == optionalValues['id'+optional.id])? optionalValues[optional.id] : "0")+'</td></tr>';
+                calculator(optional.id)           
+                    $(".inner").append(something); 
     })         
         })
-        optionals += '</tbody></table></div>'; 
+        optionals += '</tbody></table></div><div class="row">Total value to pay: <span id="gTotal"></span></div>'; 
     _("main-row").innerHTML = optionals;
+}
+
+var finalSum = 0;
+
+function calculator(id){
+    
+    if(id==13){
+        let szerkezet = (testArray[2]*2)*testArray[1];
+        finalSum = finalSum+szerkezet;
+        console.log(finalSum);
+    }
+
+    if(id==14){
+        let szerkezet = (testArray[2]*2)*testArray[1];
+        finalSum = finalSum+szerkezet;
+        console.log(finalSum);
+    }
+
+    if(id==15){
+        let szerkezet = (testArray[2]*2);
+        finalSum = finalSum+szerkezet;
+        console.log(finalSum);
+    }
+
+    if(id==16){
+        let szerkezet = (testArray[2]*2);
+        finalSum = finalSum+szerkezet;
+        console.log("Ereszalj Latszo: "+szerkezet);
+    }
+
+    if(id==17){ //emeletek
+        let szerkezet = parseInt(testArray[3]);
+        finalSum = finalSum+szerkezet;
+        console.log("emeletek: "+szerkezet);
+    }
+
+    if(id==18){ //allvanyozas
+        let szerkezet = (parseInt(testArray[2])*2)*(parseInt(testArray[3])+1)*3;
+        finalSum = finalSum+szerkezet;
+        console.log("allvanyozas: "+szerkezet);
+    }
+
+    console.log(finalSum);
+_("gTotal").innerHTML = " "+finalSum+" Ft";
 }
 
 //getSummary();
