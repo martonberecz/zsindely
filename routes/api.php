@@ -33,3 +33,8 @@ Route::get('kalk/{id}', 'KalkulacioController@show');
 Route::post('kalk', 'KalkulacioController@store');
 Route::put('kalk/{id}', 'KalkulacioController@store');
 
+Route::get('FieldRoofConnectors', 'FieldRoofConnectorController@index');
+Route::get('FieldRoofConnector/{id}', 'FieldRoofConnectorController@show');
+Route::post('FieldRoofConnector', 'FieldRoofConnectorController@store');
+Route::put('FieldRoofConnector/{id}', 'FieldRoofConnectorController@store');
+

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Field extends JsonResource
+class FieldRoofConnector extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,5 +16,4 @@ class Field extends JsonResource
     {
         return parent::toArray($request);
     }
-    
 }

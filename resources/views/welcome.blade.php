@@ -47,6 +47,7 @@
     height: auto;
 }
 
+
             </style>
 
     </head>
@@ -80,12 +81,12 @@
         //*********************roof forms***********************/
             function getRoofs() {
                 let toappend = "";
-                fetch('http://142.93.170.119/api/roofs')
+                fetch('http://localhost:8000/api/roofs')// http://142.93.170.119/api/roofs 
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (roof) {
                             toappend += `<div class="card roofs" style="width: 13rem;">`+
-                                        `<img src="../img/${roof.roofType.replace(/ /g, '').toLowerCase()}.jpg" alt="" onclick="getFrom(${roof.id})"  class="card-img-top">`+
+                                        `<img src="../img/${roof.roofType.replace(/ /g, '').toLowerCase()}.jpg" alt="" onclick="getConnector(${roof.id})"  class="card-img-top">`+
                                         `<div class="card-body">`+
                                         `<p class="card-text" id="${roof.id}">${roof.roofType}</p>`+
                                         `</div></div>`;
@@ -94,90 +95,47 @@
                 document.getElementById("main").innerHTML = toappend;  
                     })
             }
-            getRoofs();
+           getRoofs();
 let mainForm ={};
-        function getFrom(id) { 
+        function getForm(id,imgId) { 
            let formfields = "";
 
-            let img = _(id).innerHTML.replace(/ /g, '').toLowerCase();
+            let img = _(imgId).innerHTML.replace(/ /g, '').toLowerCase();
             formfields +='<div class="card card-form" style="width: 18rem;">'+
                     '<img src="../img/'+img+'calc.jpg" alt="" class="card-img-top">'+
                     '<div class="card-body">'+
                     '<p class="card-text"><form>';
-            
-            fetch('http://142.93.170.119/api/fields')
+            fetch('http://localhost:8000/api/fields')
                 .then((res) => res.json())
                 .then((data) => {
                     data.data.forEach(function (field) {
-                        if(field.roofId == id){  
-                            if(field.field1 != undefined)  {
-                                formfields += `<div class="form-group"><label for="${field.field1}">${field.field1}</label><input type="text" name="${field.field1}" class="form-control" id="${field.field1}" onblur="storeMain('${field.field1}')"></div>`;                                                                                      
-                            }
-                            if(field.field2 != undefined)  {
-                                formfields += `<div class="form-group"><label for="${field.field2}">${field.field2}</label><input type="text" name="${field.field2}" class="form-control" id="${field.field2}" onblur="storeMain('${field.field2}')"></div>`;                                                                                      
-                            }
-                            if(field.field3 != undefined)  {
-                                formfields += `<div class="form-group"><label for="${field.field3}">${field.field3}</label><input type="text" name="${field.field3}" class="form-control" id="${field.field3}" onblur="storeMain('${field.field3}')"></div>`;                                                                                      
-                            }
-                            if(field.field4 != undefined)  {
-                                formfields += `<div class="form-group"><label for="${field.field4}">${field.field4}</label><input type="text" name="${field.field4}" class="form-control" id="${field.field4}" onblur="storeMain('${field.field4}')"></div>`;                                                                                      
-                            }
-                            if(field.field5 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field5+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field6 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field6+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field7 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field7+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field8 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field8+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field9 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field9+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field10 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field10+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field11 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field11+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field12 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field12+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field13 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field13+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field14 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field14+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field15 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field15+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field16 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field16+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field17 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field17+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field18 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field18+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
-                            if(field.field19 != undefined)  {
-                                formfields += '<div class="form-group"><label for="">'+field.field19+'</label><input type="text" class="form-control"></div>';                                                       
-                            }
+                        let found = id.find(function(element){
+                            return element == field.id;
+                        });
+                        //console.log(found);
+                        if(field.id == found){ 
+                                formfields += `<div class="form-group"><label for="${field.fieldName}">${field.fieldName}</label><input type="text" name="${field.fieldName}" class="form-control" id="${found}" onblur="storeMain('${field.fieldName}','${field.id}')"></div>`;                                                                                                                                              
                             }
                         })
                         formfields += '<button type="submit" class="btn btn-primary" onclick="getOptional(event)">Submit</button></form></p></div></div>';
                         _("form-side").innerHTML = formfields;
                     })
+        }
+
+         function getConnector(id){
+             let fields = [];
+            fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
+                .then((res) => res.json())
+                .then((data) => {
+                    data.data.forEach(function (field) {
+                        fields.push(field.fieldId);
+                });                
+                    })
+                    getForm(fields,id);
          }
     
-    function storeMain(id){
-        mainForm[id] = _(id).value;
-
-        console.log(mainForm);
+    function storeMain(name, id){
+        console.log(name+','+id+','+_(id).value);
     }
 
     function getOptional(e) {
@@ -190,7 +148,7 @@ let mainForm ={};
                     '<table class="table table-striped table-sm"><thead><tr>'+
                     '<th>Tétel szövege</th><th>Mennyiseg</th><th>Egység</th>'+
                     '<th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th></tr></thead><tbody>';
-                fetch('http://142.93.170.119/api/kalks')
+                fetch('http://localhost:8000/api/kalks')
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (optional) {
@@ -240,29 +198,36 @@ function fuvarmozg(id){
         _("sum"+id).value=dijEgyseg;  
         
     }
+
+    let optionals = "";
 function getSummary(e){
+    
     e.preventDefault();
-        _("main-row").innerHTML = "";
-
-        let optionals = ""
-
+    _("main-row").innerHTML = "";
+        
+   
         optionals += '<h2>A kalkuláció eredménye</h2><div class="table-responsive">'+
-                    '<table class="table table-striped table-sm sum-table"><thead><tr>'+
-                    '<th>Tétel szövege</th><th>Mennyiseg</th><th>Egység</th>'+
-                    '</tr></thead><tbody>';
-                fetch('http://142.93.170.119/api/kalks')
-                    .then((res) => res.json())
-                    .then((data) => {
-                        data.data.forEach(function (optional) {
-                                optionals += `<tr><td>${optional.title}</td><td id="mennyiseg${optional.id}></td><td>${optional.egyseg}</td></tr>`;
-                            
-                })
-                          
-                optionals += '</tbody></table></div>';
-                _("main-row").innerHTML = optionals;
-                console.log(mainForm);
-                    })
+    '<table class="table table-striped table-sm sum-table"><thead><tr>'+
+    '<th>Tétel szövege</th><th>Egység</th><th>Mennyiseg</th>'+
+    '</tr></thead><tbody class="inner">';
+
+    fetch('http://localhost:8000/api/kalks')
+        .then((res) => res.json())
+        .then((data) => {                        
+            data.data.forEach(function (optional) {                       
+                let something = '<tr><td>'+optional.title+'</td><td id="egyseg'+optional.id+'>'+optional.egyseg+'</td><td id="mennyiseg'+optional.id+'></td></tr>';   
+                console.log(document.getElementById("egyseg"+optional.id));             
+                    $(".inner").append(something);  
+                    if(_("egyseg"+optional.id) != null){
+                        _("egyseg"+optional.id).innerHTML = optional.egyseg;                          
+                    }
+    })         
+        })
+        optionals += '</tbody></table></div>'; 
+    _("main-row").innerHTML = optionals;
 }
+
+//getSummary();
     </script>
     </body>
 </html>
