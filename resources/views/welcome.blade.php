@@ -81,7 +81,8 @@
         //*********************roof forms***********************/
             function getRoofs() {
                 let toappend = "";
-                fetch('http://localhost:8000/api/roofs')// http://142.93.170.119/api/roofs 
+                //fetch('http://localhost:8000/api/roofs')// http://142.93.170.119/api/roofs 
+                fetch('http://142.93.170.119/api/roofs')
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (roof) {
@@ -105,7 +106,8 @@ let mainForm ={};
                     '<img src="../img/'+img+'calc.jpg" alt="" class="card-img-top">'+
                     '<div class="card-body">'+
                     '<p class="card-text"><form>';
-            fetch('http://localhost:8000/api/fields')
+            //fetch('http://localhost:8000/api/fields')
+            fetch('http://142.93.170.119/api/fields')
                 .then((res) => res.json())
                 .then((data) => {
                     data.data.forEach(function (field) {
@@ -124,7 +126,8 @@ let mainForm ={};
 
          function getConnector(id){
              let fields = [];
-            fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
+            //fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
+            fetch('http://142.93.170.119/api/FieldRoofConnector/'+id)
                 .then((res) => res.json())
                 .then((data) => {
                     data.data.forEach(function (field) {
@@ -148,7 +151,8 @@ let mainForm ={};
                     '<table class="table table-striped table-sm"><thead><tr>'+
                     '<th>Tétel szövege</th><th>Mennyiseg</th><th>Egység</th>'+
                     '<th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th></tr></thead><tbody>';
-                fetch('http://localhost:8000/api/kalks')
+                //fetch('http://localhost:8000/api/kalks')
+                fetch('142.93.170.119/api/kalks')
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (optional) {
@@ -211,7 +215,8 @@ function getSummary(e){
     '<th>Tétel szövege</th><th>Egység</th><th>Mennyiseg</th>'+
     '</tr></thead><tbody class="inner">';
 
-    fetch('http://localhost:8000/api/kalks')
+    //fetch('http://localhost:8000/api/kalks')142.93.170.119
+    fetch('http://142.93.170.119/api/kalks')
         .then((res) => res.json())
         .then((data) => {                        
             data.data.forEach(function (optional) {                       
