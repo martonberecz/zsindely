@@ -42,9 +42,13 @@
     }
 
 .sum-table{
-    width: 50vw;
+    width: 90vw;
     margin: auto; 
     height: auto;
+}
+
+.hide{
+    display: none;
 }
 
 
@@ -59,7 +63,7 @@
                         <div class="col col-md-8 flex-container" id="main">
                                 
                         </div>
-                        <div class="col col-md-4 flex-container" id="main">
+                        <div class="col col-md-4 flex-container" id="main-side">
                                 <div class="row">
                                         <div class="col-sm-6 form-side" id="form-side">
                                                                       
@@ -156,7 +160,7 @@ let testArray = {};
                     '<th>Tétel szövege</th><th>Mennyiseg</th><th>Egység</th>'+
                     '<th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th></tr></thead><tbody>';
                 //fetch('http://localhost:8000/api/kalks')
-                fetch('http://142.93.170.119/api/kalks')
+               fetch('http://142.93.170.119/api/kalks')
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (optional) {
@@ -222,8 +226,8 @@ function getSummary(e){
         
    
         optionals += '<h2>A kalkuláció eredménye</h2><div class="table-responsive">'+
-    '<table class="table table-striped table-sm sum-table"><thead><tr>'+
-    '<th>Tétel szövege</th><th>Egység</th><th>Mennyiseg</th>'+
+    '<table class="table table-striped table-sm sum-table col-md-12"><thead><tr>'+
+    '<th>Tétel szövege</th><th>Egység</th><th>Mennyiseg</th><th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th>'+
     '</tr></thead><tbody class="inner">';
 
     //fetch('http://localhost:8000/api/kalks')
@@ -231,9 +235,15 @@ function getSummary(e){
         .then((res) => res.json())
         .then((data) => {                        
             data.data.forEach(function (optional) {
-                let something = '<tr><td>'+optional.title+'</td><td>'+optional.egyseg+'</td><td>'+((optional.id == optionalValues['id'+optional.id])? optionalValues[optional.id] : "0")+'</td></tr>';
-                calculator(optional.id)           
-                    $(".inner").append(something); 
+                let something = '<tr><td>'+optional.title+'</td><td>'+optional.egyseg+'</td>'+
+                                '<td id="'+optional.id+'">'+((optional.id == optionalValues['id'+optional.id])? optionalValues[optional.id] : "0")+'</td>'+
+                                '<td id="anyag'+optional.id+'"></td>'+
+                                '<td id="dij'+optional.id+'"></td>'+
+                                '<td id="anyagSum'+optional.id+'"></td>'+
+                                '<td id="dijSum'+optional.id+'"></td>'+
+                                '</tr>';
+                 $(".inner").append(something); 
+                 calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis)
     })         
         })
         optionals += '</tbody></table></div><div class="row">Total value to pay: <span id="gTotal"></span></div>'; 
@@ -242,47 +252,159 @@ function getSummary(e){
 
 var finalSum = 0;
 
-function calculator(id){
+function calculator(id, egysegar,dijegyseg,optional){
+
+    if(optional==1){
+        var egysegAr = optionalValues[id]*egysegar;
+        var dijEgysegAr = optionalValues[id]*dijegyseg;
+        _("anyag"+id).innerHTML = egysegar;
+        _("dij"+id).innerHTML = dijegyseg;
+        _("anyagSum"+id).innerHTML = egysegAr;
+        _("dijSum"+id).innerHTML = dijEgysegAr;
+
+        finalSum = finalSum+parseInt(finalSum+egysegAr);
+        finalSum = finalSum+parseInt(finalSum+dijEgysegAr);
+    }
     
     if(id==13){
         let szerkezet = (testArray[2]*2)*testArray[1];
-        finalSum = finalSum+szerkezet;
-        console.log(finalSum);
+        egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
     if(id==14){
         let szerkezet = (testArray[2]*2)*testArray[1];
-        finalSum = finalSum+szerkezet;
-        console.log(finalSum);
+        egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
     if(id==15){
         let szerkezet = (testArray[2]*2);
-        finalSum = finalSum+szerkezet;
-        console.log(finalSum);
+        egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
     if(id==16){
         let szerkezet = (testArray[2]*2);
-        finalSum = finalSum+szerkezet;
-        console.log("Ereszalj Latszo: "+szerkezet);
+        egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
     if(id==17){ //emeletek
         let szerkezet = parseInt(testArray[3]);
-        finalSum = finalSum+szerkezet;
-        console.log("emeletek: "+szerkezet);
+        egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
     if(id==18){ //allvanyozas
         let szerkezet = (parseInt(testArray[2])*2)*(parseInt(testArray[3])+1)*3;
-        finalSum = finalSum+szerkezet;
-        console.log("allvanyozas: "+szerkezet);
+        egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    console.log(finalSum);
-_("gTotal").innerHTML = " "+finalSum+" Ft";
+    if(id==19){ //allvanyozas
+        let szerkezet = parseInt(testArray[2]);
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+    if(id==20){ //allvanyozas
+        let szerkezet = (testArray[2]*2)*testArray[1];
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==21){ //allvanyozas
+        let szerkezet = (testArray[2]*2)*testArray[1];
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==22){ //allvanyozas
+        let szerkezet = (testArray[2]*2);
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==23){ //allvanyozas
+        let szerkezet = (testArray[2]*2)*testArray[1];
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==24){ //allvanyozas
+        let szerkezet = parseInt((testArray[2]*2)*testArray[1])*1.1;
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==25){ //allvanyozas
+        let szerkezet = parseInt(testArray[2]*2);
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==26){ //allvanyozas
+        let szerkezet = parseInt(testArray[1]*4);
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==27){ //allvanyozas
+        let szerkezet = (testArray[2]*2)*testArray[1];
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==28){ //allvanyozas
+        let szerkezet = (testArray[2]*2)*3;
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==29){ //allvanyozas
+        let szerkezet = parseInt(testArray[2]*2);
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==30){ //allvanyozas
+        let szerkezet = parseInt((testArray[2]*2)*testArray[1])/100;
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==31){ //allvanyozas
+        let szerkezet = parseInt((testArray[2]*2)*testArray[1])/25;
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==32){ //allvanyozas
+        let szerkezet = (parseInt((testArray[2]*2)*testArray[1])/100)*6;
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==11){ //allvanyozas
+        let szerkezet = 0; //to be filled
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==33){ //allvanyozas
+        let szerkezet = (testArray[2]*2)*testArray[1];
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==34){ //allvanyozas
+        let szerkezet = 0; //to be filled
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==35){ //allvanyozas
+        let szerkezet = (parseInt((testArray[2]*2)*testArray[1])/10)*testArray[1];
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+    
 }
+
+function egyseg(id,egyseg,egysegar,dijegyseg){
+
+    var egysegAr = egyseg*egysegar;
+        var dijEgysegAr = egyseg*dijegyseg;
+
+    _(id).innerHTML = egyseg;
+    _("anyag"+id).innerHTML = egysegar;
+        _("dij"+id).innerHTML = dijegyseg;
+        _("anyagSum"+id).innerHTML = egysegAr;
+        _("dijSum"+id).innerHTML = dijEgysegAr;
+
+        finalSum = finalSum+parseInt(finalSum + egysegAr);
+        finalSum = finalSum+parseInt(finalSum +dijEgysegAr);
+
+        console.log(finalSum);
+    _("gTotal").innerHTML = " "+finalSum+" Ft";
+}
+
 
 //getSummary();
     </script>
