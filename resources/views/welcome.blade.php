@@ -77,7 +77,10 @@
         
             
     <script>
-
+        let formfields = "";
+        let testArray = {};
+        let tempArray = [];
+        let optionalValues = {};
         function _(id){
             return document.getElementById(id);
         }
@@ -85,8 +88,8 @@
         //*********************roof forms***********************/
             function getRoofs() {
                 let toappend = "";
-                //fetch('http://localhost:8000/api/roofs')// http://142.93.170.119/api/roofs 
-                fetch('http://142.93.170.119/api/roofs')
+                fetch('http://localhost:8000/api/roofs')// http://142.93.170.119/api/roofs 
+                //fetch('http://142.93.170.119/api/roofs')
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (roof) {
@@ -101,56 +104,55 @@
                     })
             }
            getRoofs(); 
-        function getForm(id,imgId) { 
-           let formfields = "";
 
+        function getForm(id,imgId) { 
+           
+            console.log("Roof id: "+imgId);
             let img = _(imgId).innerHTML.replace(/ /g, '').toLowerCase();
             formfields +='<div class="card card-form" style="width: 18rem;">'+
                     '<img src="../img/'+img+'calc.jpg" alt="" class="card-img-top">'+
                     '<div class="card-body">'+
                     '<p class="card-text"><form>';
-            //fetch('http://localhost:8000/api/fields')
-            fetch('http://142.93.170.119/api/fields')
+            fetch('http://localhost:8000/api/fields')
+            //fetch('http://142.93.170.119/api/fields')
                 .then((res) => res.json())
                 .then((data) => {
                     data.data.forEach(function (field) {
                         let found = id.find(function(element){
                             return element == field.id;
                         });
-                        //console.log(found);
                         if(field.id == found){ 
                                 formfields += `<div class="form-group"><label for="${field.fieldName}">${field.fieldName}</label><input id="${field.fieldName}" type="text" name="${field.fieldName}" class="form-control" onblur="storeMain('${field.fieldName}','${field.id}')"></div>`;                                                                                                                                              
                                 
                             }
                         })
-                        formfields += '<button type="submit" class="btn btn-primary" onclick="getOptional(event)">Submit</button></form></p></div></div>';
+                        formfields += '<button type="submit" class="btn btn-primary" onclick="getOptional(event,'+imgId+')">Submit</button></form></p></div></div>';
                         _("form-side").innerHTML = formfields;
                     })
         }
 
          function getConnector(id){
+            console.log("Roof id: "+id);
              let fields = [];
-            //fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
-            fetch('http://142.93.170.119/api/FieldRoofConnector/'+id)
+            fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
+            //fetch('http://142.93.170.119/api/FieldRoofConnector/'+id)
                 .then((res) => res.json())
                 .then((data) => {
                     data.data.forEach(function (field) {
                         fields.push(field.fieldId);
                 });                
                     })
-                    getForm(fields,id);
+            getForm(fields,id);
          }
-let testArray = {};
-    function storeMain(name, id){
-        console.log(id);        
+
+    function storeMain(name, id, roofId){        
         let inputValue = document.getElementById(name).value;
         testArray[id] = inputValue;      
-        console.log(testArray);
-
     }
 
-    function getOptional(e) {
+    function getOptional(e, roofId) {
         e.preventDefault();
+        console.log("Roof id: "+roofId);
         _("main-row").innerHTML = "";
 
         let optionals = ""
@@ -159,8 +161,8 @@ let testArray = {};
                     '<table class="table table-striped table-sm"><thead><tr>'+
                     '<th>Tétel szövege</th><th>Mennyiseg</th><th>Egység</th>'+
                     '<th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th></tr></thead><tbody>';
-                //fetch('http://localhost:8000/api/kalks')
-               fetch('http://142.93.170.119/api/kalks')
+                fetch('http://localhost:8000/api/kalks')
+               //fetch('http://142.93.170.119/api/kalks')
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (optional) {
@@ -173,12 +175,12 @@ let testArray = {};
                             }
                 })
                           
-                optionals += '</tbody></table><button class="btn btn-success btn-lg" onclick="getSummary(event)">Elkuld</button></div>';
+                optionals += '</tbody></table><button class="btn btn-success btn-lg" onclick="getSummary(event,'+roofId+')">Elkuld</button></div>';
                 _("main-row").innerHTML = optionals;
                     })
     }
     
-let tempArray = [];
+
 
 function fuvarmozg(id){
     let beszerzes = parseInt(_("egysegar11").innerHTML);
@@ -204,12 +206,11 @@ function fuvarmozg(id){
     _("egysegar12").innerHTML=mozgatas;
 }
 
-let optionalValues = {};
+
     function optionalSumFunc(id){         
         let amount = _(id).value;
         optionalValues['id'+id]=id;
-        optionalValues[id]= amount;
-        console.log(optionalValues);       
+        optionalValues[id]= amount;      
         let anyag = (amount * parseInt(_("egysegar"+id).innerHTML));
         let dijEgyseg = (amount * parseInt(_("dijegysegre"+id).innerHTML));
 
@@ -219,8 +220,8 @@ let optionalValues = {};
     }
 
     let optionals = "";
-function getSummary(e){
-    
+function getSummary(e,roofId){
+    console.log("Roof id: "+roofId);
     e.preventDefault();
     _("main-row").innerHTML = "";
         
@@ -230,8 +231,8 @@ function getSummary(e){
     '<th>Tétel szövege</th><th>Egység</th><th>Mennyiseg</th><th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th>'+
     '</tr></thead><tbody class="inner">';
 
-    //fetch('http://localhost:8000/api/kalks')
-    fetch('http://142.93.170.119/api/kalks')
+    fetch('http://localhost:8000/api/kalks')
+    //fetch('http://142.93.170.119/api/kalks')
         .then((res) => res.json())
         .then((data) => {                        
             data.data.forEach(function (optional) {
@@ -243,17 +244,43 @@ function getSummary(e){
                                 '<td id="dijSum'+optional.id+'"></td>'+
                                 '</tr>';
                  $(".inner").append(something); 
-                 calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis)
+                 calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis,roofId)
     })         
         })
         optionals += '</tbody></table></div><div class="row">Total value to pay: <span id="gTotal"></span></div>'; 
     _("main-row").innerHTML = optionals;
 }
 
-var finalSum = 0;
 
-function calculator(id, egysegar,dijegyseg,optional){
 
+function calculator(id, egysegar,dijegyseg,optional,roofId){
+
+/****************Formulas****************/
+//P8 = SQRT(P2*P2-pow((M2-Q2)/2.2))
+let M5 = 0;
+let M4 = 0;
+
+if(roofId==3){
+    let P8 = Math.sqrt(testArray[5]*testArray[5]-Math.pow(((testArray[2]-testArray[6])/2),2));
+    //P7 = (L2*M2-2*P8)
+    let P7 = testArray[1]*testArray[2]-2*P8;
+    //M8 = P2+R2/2
+    let M8 = parseFloat(testArray[5])+(parseFloat(testArray[8]/2));
+    //M6 = SQRT(M8*(M8-P2)*(M8-P2)*(M8-R2))
+    let M6 = Math.sqrt(M8*(M8-testArray[5])*(M8-testArray[5])-(M8-testArray[8]));                
+    //M5 = 2*(P7+M6)
+     M5 = 2*(P7+M6);
+     //M4 =2*M2
+     M4 = 2 * testArray[2];
+
+    console.log("P8 = " +P8);
+    console.log("P7 = " +P7);
+    console.log("M8 = " +M8);    
+    console.log("M6 = " +M6);
+    console.log("M5 = " +M5);
+
+    console.log("Roof id: "+roofId);
+}
     if(optional==1){
         var egysegAr = optionalValues[id]*egysegar;
         var dijEgysegAr = optionalValues[id]*dijegyseg;
@@ -261,82 +288,253 @@ function calculator(id, egysegar,dijegyseg,optional){
         _("dij"+id).innerHTML = dijegyseg;
         _("anyagSum"+id).innerHTML = egysegAr;
         _("dijSum"+id).innerHTML = dijEgysegAr;
-
-        finalSum = finalSum+parseInt(finalSum+egysegAr);
-        finalSum = finalSum+parseInt(finalSum+dijEgysegAr);
     }
     
+    if(optional!=1){
+
+    ///szerkezet epites    
     if(id==13){
-        let szerkezet = (testArray[2]*2)*testArray[1];
-        egyseg(id,szerkezet,egysegar,dijegyseg)
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = (testArray[2]*2)*testArray[1];
+                break;
+            case 3:
+                // felig kontyolt nyereg 
+                szerkezet = M5;
+                break;
+            default:
+                // code block
+        }
+        
+        egyseg(id,szerkezet,egysegar,dijegyseg)        
     }
 
+    //Para atereszto
     if(id==14){
-        let szerkezet = (testArray[2]*2)*testArray[1];
-        egyseg(id,szerkezet,egysegar,dijegyseg)
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = (testArray[2]*2)*testArray[1];
+                break;
+            case 3:
+                // felig kontyolt nyereg                
+                szerkezet = M5;
+                break;
+            default:
+                // code block
+        }
+        egyseg(id,szerkezet,egysegar,dijegyseg)        
     }
 
+    //Ereszalj dobozolt
     if(id==15){
-        let szerkezet = (testArray[2]*2);
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = M4;
+                break;
+            case 3:
+                szerkezet = M4;
+                break;
+            default:
+                // code block
+                }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
+    //Ereszalj latszo
     if(id==16){
-        let szerkezet = (testArray[2]*2);
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = M4; 
+                break;
+            case 3:
+                szerkezet = M4;
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
     if(id==17){ //emeletek
-        let szerkezet = parseInt(testArray[3]);
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = parseInt(testArray[3]); 
+                break;
+            case 3:
+                szerkezet =parseInt(testArray[3]);
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
     if(id==18){ //allvanyozas
-        let szerkezet = (parseInt(testArray[2])*2)*(parseInt(testArray[3])+1)*3;
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = (M4*(parseInt(testArray[3])+1)*3); //M4*(N2+1)*3
+                break;
+            case 3:
+                szerkezet = (M4*(parseInt(testArray[3])+1)*3);//=M4*(N2+1)*3
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==19){ //allvanyozas
-        let szerkezet = parseInt(testArray[2]);
+    if(id==19){ //szuk zsindely eltav
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = parseInt(testArray[2]); 
+                break;
+            case 3:
+                szerkezet = 4*parseInt(testArray[5])+parseInt(testArray[6]);//=4*P2+Q2
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
-    if(id==20){ //allvanyozas
-        let szerkezet = (testArray[2]*2)*testArray[1];
-        egyseg(id,szerkezet,egysegar,dijegyseg)
-    }
-
-    if(id==21){ //allvanyozas
-        let szerkezet = (testArray[2]*2)*testArray[1];
-        egyseg(id,szerkezet,egysegar,dijegyseg)
-    }
-
-    if(id==22){ //allvanyozas
-        let szerkezet = (testArray[2]*2);
-        egyseg(id,szerkezet,egysegar,dijegyseg)
-    }
-
-    if(id==23){ //allvanyozas
-        let szerkezet = (testArray[2]*2)*testArray[1];
-        egyseg(id,szerkezet,egysegar,dijegyseg)
-    }
-
-    if(id==24){ //allvanyozas
-        let szerkezet = parseInt((testArray[2]*2)*testArray[1])*1.1;
-        egyseg(id,szerkezet,egysegar,dijegyseg)
-    }
-
-    if(id==25){ //allvanyozas
-        let szerkezet = parseInt(testArray[2]*2);
+    if(id==20){ //Deszka surites
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = (testArray[2]*2)*testArray[1]; 
+                break;
+            case 3:
+                szerkezet = M5;
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==26){ //allvanyozas
-        let szerkezet = parseInt(testArray[1]*4);
+    if(id==21){ //OSB
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = (testArray[2]*2)*testArray[1]; 
+                break;
+            case 3:
+                szerkezet = M5;
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==27){ //allvanyozas
-        let szerkezet = (testArray[2]*2)*testArray[1];
+    if(id==22){ //Csatornazas
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = M4; 
+                break;
+            case 3:
+                szerkezet = M4;
+                break;
+            default:
+                // code block
+        }
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==23){ //aluminium
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = (testArray[2]*2)*testArray[1]; 
+                break;
+            case 3:
+                szerkezet = M4;
+                break;
+            default:
+                // code block
+        }
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==24){ //alatet lemez
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = parseInt((testArray[2]*2)*testArray[1])*1.1; 
+                break;
+            case 3:
+                szerkezet = M5*1.1;
+                break;
+            default:
+                // code block
+        }
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==25){ //Rovarhalo
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = parseInt(testArray[2]*2); 
+                break;
+            case 3:
+                szerkezet = M4;
+                break;
+            default:
+                // code block
+        }
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==26){ //Oromszego lemez
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = parseInt(testArray[1]*4); 
+                break;
+            case 3:
+                szerkezet = 4*(testArray[1]-P8); //=4*(L2-P8)
+                break;
+            default:
+                // code block
+        }
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==27){ //Garancias zsindely
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = (testArray[2]*2)*testArray[1]; 
+                break;
+            case 3:
+                szerkezet = M5;
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
@@ -384,7 +582,7 @@ function calculator(id, egysegar,dijegyseg,optional){
         let szerkezet = (parseInt((testArray[2]*2)*testArray[1])/10)*testArray[1];
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
-    
+    }
 }
 
 function egyseg(id,egyseg,egysegar,dijegyseg){
@@ -397,12 +595,6 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
         _("dij"+id).innerHTML = dijegyseg;
         _("anyagSum"+id).innerHTML = egysegAr;
         _("dijSum"+id).innerHTML = dijEgysegAr;
-
-        finalSum = finalSum+parseInt(finalSum + egysegAr);
-        finalSum = finalSum+parseInt(finalSum +dijEgysegAr);
-
-        console.log(finalSum);
-    _("gTotal").innerHTML = " "+finalSum+" Ft";
 }
 
 
