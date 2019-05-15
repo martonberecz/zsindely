@@ -88,8 +88,8 @@
         //*********************roof forms***********************/
             function getRoofs() {
                 let toappend = "";
-                fetch('http://localhost:8000/api/roofs')// http://142.93.170.119/api/roofs 
-                //fetch('http://142.93.170.119/api/roofs')
+                //fetch('http://localhost:8000/api/roofs')// http://142.93.170.119/api/roofs 
+                fetch('http://142.93.170.119/api/roofs')
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (roof) {
@@ -113,8 +113,8 @@
                     '<img src="../img/'+img+'calc.jpg" alt="" class="card-img-top">'+
                     '<div class="card-body">'+
                     '<p class="card-text"><form>';
-            fetch('http://localhost:8000/api/fields')
-            //fetch('http://142.93.170.119/api/fields')
+            //fetch('http://localhost:8000/api/fields')
+            fetch('http://142.93.170.119/api/fields')
                 .then((res) => res.json())
                 .then((data) => {
                     data.data.forEach(function (field) {
@@ -134,8 +134,8 @@
          function getConnector(id){
             console.log("Roof id: "+id);
              let fields = [];
-            fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
-            //fetch('http://142.93.170.119/api/FieldRoofConnector/'+id)
+            //fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
+            fetch('http://142.93.170.119/api/FieldRoofConnector/'+id)
                 .then((res) => res.json())
                 .then((data) => {
                     data.data.forEach(function (field) {
@@ -161,8 +161,8 @@
                     '<table class="table table-striped table-sm"><thead><tr>'+
                     '<th>Tétel szövege</th><th>Mennyiseg</th><th>Egység</th>'+
                     '<th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th></tr></thead><tbody>';
-                fetch('http://localhost:8000/api/kalks')
-               //fetch('http://142.93.170.119/api/kalks')
+                //fetch('http://localhost:8000/api/kalks')
+               fetch('http://142.93.170.119/api/kalks')
                     .then((res) => res.json())
                     .then((data) => {
                         data.data.forEach(function (optional) {
@@ -231,8 +231,8 @@ function getSummary(e,roofId){
     '<th>Tétel szövege</th><th>Egység</th><th>Mennyiseg</th><th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th>'+
     '</tr></thead><tbody class="inner">';
 
-    fetch('http://localhost:8000/api/kalks')
-    //fetch('http://142.93.170.119/api/kalks')
+    //fetch('http://localhost:8000/api/kalks')
+    fetch('http://142.93.170.119/api/kalks')
         .then((res) => res.json())
         .then((data) => {                        
             data.data.forEach(function (optional) {
@@ -259,9 +259,10 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
 //P8 = SQRT(P2*P2-pow((M2-Q2)/2.2))
 let M5 = 0;
 let M4 = 0;
+let P8 = 0;
 
 if(roofId==3){
-    let P8 = Math.sqrt(testArray[5]*testArray[5]-Math.pow(((testArray[2]-testArray[6])/2),2));
+    P8 = Math.sqrt(testArray[5]*testArray[5]-Math.pow(((testArray[2]-testArray[6])/2),2));
     //P7 = (L2*M2-2*P8)
     let P7 = testArray[1]*testArray[2]-2*P8;
     //M8 = P2+R2/2
@@ -538,51 +539,155 @@ if(roofId==3){
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==28){ //allvanyozas
-        let szerkezet = (testArray[2]*2)*3;
+    if(id==28){ //hofogok
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = (testArray[2]*2)*3; 
+                break;
+            case 3:
+                szerkezet = parseInt(testArray[2]*3);
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==29){ //allvanyozas
-        let szerkezet = parseInt(testArray[2]*2);
+    if(id==29){ //gerinc szellozo
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = parseInt(testArray[2]*2); 
+                break;
+            case 3:
+                szerkezet = parseInt(testArray[6]);
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==30){ //allvanyozas
-        let szerkezet = parseInt((testArray[2]*2)*testArray[1])/100;
+    if(id==30){ //szeg
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = parseInt((testArray[2]*2)*testArray[1])/100; 
+                break;
+            case 3:
+                szerkezet = parseFloat(M5/100);
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==31){ //allvanyozas
-        let szerkezet = parseInt((testArray[2]*2)*testArray[1])/25;
+    if(id==31){ //sitt
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = parseInt((testArray[2]*2)*testArray[1])/25; 
+                break;
+            case 3:
+                szerkezet = parseFloat(M5/25);
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==32){ //allvanyozas
-        let szerkezet = (parseInt((testArray[2]*2)*testArray[1])/100)*6;
+    if(id==32){ //zsindely ragaszto
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = (parseInt((testArray[2]*2)*testArray[1])/100)*6; 
+                break;
+            case 3:
+                szerkezet = parseFloat(M5/100*6);
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==11){ //allvanyozas
+    if(id==11){ //anyag fuvar ktg
         let szerkezet = 0; //to be filled
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==33){ //allvanyozas
-        let szerkezet = (testArray[2]*2)*testArray[1];
+    if(id==33){ //kezdozsindely
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = (testArray[2]*2)*parseInt(testArray[1]); 
+                break;
+            case 3:
+                szerkezet = M4;
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==34){ //allvanyozas
+    if(id==34){ //mobilvc
         let szerkezet = 0; //to be filled
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==35){ //allvanyozas
-        let szerkezet = (parseInt((testArray[2]*2)*testArray[1])/10)*testArray[1];
+    if(id==35){ //kiszallas
+        let szerkezet = 0;
+        switch(roofId) {
+            case 2:
+                // nyereg teteo
+                szerkezet = (parseInt((testArray[2]*2)*testArray[1])/10)*testArray[1]; 
+                break;
+            case 3:
+                szerkezet = M5/10*parseInt(testArray[4]);
+                break;
+            default:
+                // code block
+        }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
+
+    if(id==36){ //pontszellozo
+        let szerkezet = 0;
+        switch(roofId) {
+            case 3:
+                szerkezet = 4; 
+                break;
+            default:
+                // code block
+        }
+        egyseg(id,szerkezet,egysegar,dijegyseg)
     }
+
+    if(id==37){ //el kupozas
+        let szerkezet = 0;
+        switch(roofId) {
+            case 3:
+                szerkezet = parseFloat(testArray[5])*4; 
+                break;
+            default:
+                // code block
+        }
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    }
+
+    
 }
 
 function egyseg(id,egyseg,egysegar,dijegyseg){
