@@ -44,7 +44,7 @@
 .sum-table{
     width: 90vw;
     margin: auto; 
-    height: auto;
+    height: 200vh;
 }
 
 .hide{
@@ -134,7 +134,7 @@
                     '<div class="card-body">'+
                     '<p class="card-text"><form>';
            //fetch('http://localhost:8000/api/fields')
-            fetch('http://142.93.170.119/api/fields')
+           fetch('http://142.93.170.119/api/fields')
                 .then((res) => res.json())
                 .then((data) => {
                     data.data.forEach(function (field) {
@@ -166,7 +166,7 @@
 
         let optionals = ""
 
-        optionals += '<h2>Section title</h2><div class="table-responsive">'+
+        optionals += '<div class="table-responsive">'+
                     '<table class="table table-striped table-sm"><thead><tr>'+
                     '<th>Tétel szövege</th><th>Mennyiseg</th><th>Egység</th>'+
                     '<th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th></tr></thead><tbody>';
