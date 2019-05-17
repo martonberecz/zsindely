@@ -45,7 +45,7 @@
     width: 90vw;
     margin: auto; 
     max-height: 150vh;
-    font-size: 0.8vw;
+    font-size: 0.9vw;
 }
 
 .hide{
@@ -209,7 +209,7 @@ function getSummary(e,roofId){
     _("main-row").innerHTML = "";
         
    
-        optionals += '<h2>A kalkuláció eredménye</h2><div class="table-responsive">'+
+        optionals += '<div class="table-responsive">'+
     '<table class="table table-striped table-sm sum-table col-md-12"><thead><tr>'+
     '<th>Tétel szövege</th><th>Egység</th><th>Mennyiseg</th><th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th>'+
     '</tr></thead><tbody class="inner">';
