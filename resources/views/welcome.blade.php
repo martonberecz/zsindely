@@ -260,13 +260,13 @@ if(roofId==3){
      
      
 
-    console.log("P8 = " +P8);
-    console.log("P7 = " +P7);
-    console.log("M8 = " +M8);    
-    console.log("M6 = " +M6);
-    console.log("M5 = " +M5);
+    // console.log("P8 = " +P8);
+    // console.log("P7 = " +P7);
+    // console.log("M8 = " +M8);    
+    // console.log("M6 = " +M6);
+    // console.log("M5 = " +M5);
 
-    console.log("Roof id: "+roofId);
+    // console.log("Roof id: "+roofId);
 }
 
 //***********************Calculator for optionals*******************************/
@@ -686,8 +686,10 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
     var sumEgysegAr = egyseg*egysegar;
     var dijEgysegAr = egyseg*dijegyseg;
 
-    if(egyseg != 0){
-    anyagmozgatas = parseFloat(anyagmozgatas) + parseFloat(egysegar);
+
+    if(parseInt(egyseg) > 0){
+        anyagmozgatas = parseFloat(anyagmozgatas) + parseFloat(egysegar);
+        console.log("egyseg: "+egyseg);
     }
 
     egysegFullSum = egysegFullSum + sumEgysegAr;
