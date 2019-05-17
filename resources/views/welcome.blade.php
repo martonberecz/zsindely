@@ -686,7 +686,9 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
     var sumEgysegAr = egyseg*egysegar;
     var dijEgysegAr = egyseg*dijegyseg;
 
+    if(egyseg != 0){
     anyagmozgatas = parseFloat(anyagmozgatas) + parseFloat(egysegar);
+    }
 
     egysegFullSum = egysegFullSum + sumEgysegAr;
     dijFulSum = dijFulSum + dijEgysegAr;
