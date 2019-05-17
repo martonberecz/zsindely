@@ -218,7 +218,7 @@ function getSummary(e,roofId){
         .then((res) => res.json())
         .then((data) => {                        
             data.data.forEach(function (optional) {                
-                mennyiseg = ((optional.id == optionalValues['id'+optional.id])? optionalValues[optional.id] : 0);
+                mennyiseg = ((optional.id == optionalValues['id'+optional.id])? parseInt(optionalValues[optional.id]) : 0);
                 let something = '<tr><td>'+optional.title+'</td><td>'+optional.egyseg+'</td>'+
                                 '<td id="'+optional.id+'">'+mennyiseg+'</td>'+
                                 '<td id="anyag'+optional.id+'"></td>'+
@@ -241,12 +241,11 @@ function getSummary(e,roofId){
 /**********************************************Calculator for the sum page********************************************/
 function calculator(id, egysegar,dijegyseg,optional,roofId){
 let M5 = 0;
-let M4 = 0;
+let M4 = parseFloat(2 * testArray[2]).toFixed(2);//M4 =2*M2
 let P8 = 0;
 
 /****************Formulas****************/
-
-       
+   
 if(roofId==3){
     P8 = Math.sqrt(testArray[5]*testArray[5]-Math.pow(((testArray[2]-testArray[6])/2),2));
     //P7 = (L2*M2-2*P8)
@@ -256,9 +255,9 @@ if(roofId==3){
     //M6 = SQRT(M8*(M8-P2)*(M8-P2)*(M8-R2))
     let M6 = Math.sqrt(M8*(M8-testArray[5])*(M8-testArray[5])-(M8-testArray[8]));                
     //M5 = 2*(P7+M6)
-     M5 = 2*(P7+M6);
-     //M4 =2*M2
-     M4 = 2 * testArray[2];
+     M5 = parseFloat( 2*(P7+M6)).toFixed(2);
+     
+     
 
     console.log("P8 = " +P8);
     console.log("P7 = " +P7);
@@ -273,12 +272,12 @@ if(roofId==3){
     if(optional==1){
         var egysegAr = optionalValues[id]*egysegar;
         var dijEgysegAr = optionalValues[id]*dijegyseg;
-        _("anyag"+id).innerHTML = egysegar;
-        _("dij"+id).innerHTML = dijegyseg;
-        _("anyagSum"+id).innerHTML = egysegAr;
-        _("dijSum"+id).innerHTML = dijEgysegAr;
+        _("anyag"+id).innerHTML = parseInt(egysegar);
+        _("dij"+id).innerHTML = parseInt(dijegyseg);
+        _("anyagSum"+id).innerHTML = parseFloat(egysegAr).toFixed(2);
+        _("dijSum"+id).innerHTML = parseFloat(dijEgysegAr).toFixed(2);
         if(optionalValues[id]>0){
-            anyagmozgatas = parseInt(anyagmozgatas) + parseInt(egysegar);
+            anyagmozgatas = parseFloat(anyagmozgatas) + parseFloat(egysegar);
         }
         
     }
@@ -291,7 +290,7 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = (testArray[2]*2)*testArray[1];
+                szerkezet = parseFloat((testArray[2]*2)*testArray[1]).toFixed(2);
                 break;
             case 3:
                 // felig kontyolt nyereg 
@@ -310,7 +309,7 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = (testArray[2]*2)*testArray[1];
+                szerkezet = ((testArray[2]*2)*testArray[1]).toFixed(2);
                 break;
             case 3:
                 // felig kontyolt nyereg                
@@ -361,10 +360,10 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = parseInt(testArray[3]); 
+                szerkezet = parseFloat(parseFloat(testArray[3]).toFixed(2)).toFixed(2); 
                 break;
             case 3:
-                szerkezet =parseInt(testArray[3]);
+                szerkezet =parseFloat(parseFloat(testArray[3]).toFixed(2)).toFixed(2);
                 break;
             default:
                 // code block
@@ -377,10 +376,10 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = (M4*(parseInt(testArray[3])+1)*3); //M4*(N2+1)*3
+                szerkezet = parseFloat(M4*(testArray[3]+1)*3).toFixed(2); //M4*(N2+1)*3
                 break;
             case 3:
-                szerkezet = (M4*(parseInt(testArray[3])+1)*3);//=M4*(N2+1)*3
+                szerkezet = parseFloat(M4*(testArray[3]+1)*3).toFixed(2);//=M4*(N2+1)*3
                 break;
             default:
                 // code block
@@ -393,10 +392,10 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = parseInt(testArray[2]); 
+                szerkezet = parseFloat(testArray[2]); 
                 break;
             case 3:
-                szerkezet = 4*parseInt(testArray[5])+parseInt(testArray[6]);//=4*P2+Q2
+                szerkezet = parseFloat(4*parseFloat(testArray[5])+parseFloat(testArray[6])).toFixed(2);//=4*P2+Q2
                 break;
             default:
                 // code block
@@ -407,8 +406,7 @@ if(roofId==3){
         let szerkezet = 0;
         switch(roofId) {
             case 2:
-                // nyereg teteo
-                szerkezet = (testArray[2]*2)*testArray[1]; 
+                szerkezet = parseFloat(((testArray[2]*2)*testArray[1])).toFixed(2); 
                 break;
             case 3:
                 szerkezet = M5;
@@ -424,7 +422,7 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = (testArray[2]*2)*testArray[1]; 
+                szerkezet = parseFloat((testArray[2]*2)*testArray[1]).toFixed(2); 
                 break;
             case 3:
                 szerkezet = M5;
@@ -456,7 +454,7 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = (testArray[2]*2)*testArray[1]; 
+                szerkezet = parseFloat((testArray[2]*2)*testArray[1]).toFixed(2); 
                 break;
             case 3:
                 szerkezet = M4;
@@ -472,10 +470,10 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = parseInt((testArray[2]*2)*testArray[1])*1.1; 
+                szerkezet = parseFloat(parseFloat((testArray[2]*2)*testArray[1])*1.1).toFixed(2); 
                 break;
             case 3:
-                szerkezet = M5*1.1;
+                szerkezet = parseFloat(M5*1.1).toFixed(2);
                 break;
             default:
                 // code block
@@ -488,7 +486,7 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = parseInt(testArray[2]*2); 
+                szerkezet = parseFloat(testArray[2]*2).toFixed(2); 
                 break;
             case 3:
                 szerkezet = M4;
@@ -504,10 +502,10 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = parseInt(testArray[1]*4); 
+                szerkezet = parseFloat(parseFloat(testArray[1]*4).toFixed(2)).toFixed(2); 
                 break;
             case 3:
-                szerkezet = 4*(testArray[1]-P8); //=4*(L2-P8)
+                szerkezet = parseFloat(4*(testArray[1]-P8)).toFixed(2); //=4*(L2-P8)
                 break;
             default:
                 // code block
@@ -520,7 +518,7 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = (testArray[2]*2)*testArray[1]; 
+                szerkezet = parseFloat((testArray[2]*2)*testArray[1]).toFixed(2); 
                 break;
             case 3:
                 szerkezet = M5;
@@ -536,10 +534,10 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = (testArray[2]*2)*3; 
+                szerkezet = parseFloat((testArray[2]*2)*3); 
                 break;
             case 3:
-                szerkezet = parseInt(testArray[2]*3);
+                szerkezet = parseFloat(testArray[2]*3).toFixed(2);
                 break;
             default:
                 // code block
@@ -552,10 +550,10 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = parseInt(testArray[2]*2); 
+                szerkezet = parseFloat(parseFloat(testArray[2]*2)).toFixed(2); 
                 break;
             case 3:
-                szerkezet = parseInt(testArray[6]);
+                szerkezet = parseFloat(testArray[6]).toFixed(2);
                 break;
             default:
                 // code block
@@ -568,10 +566,10 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = parseInt((testArray[2]*2)*testArray[1])/100; 
+                szerkezet = parseFloat(parseFloat((testArray[2]*2)*testArray[1])/100).toFixed(2); 
                 break;
             case 3:
-                szerkezet = parseFloat(M5/100);
+                szerkezet = parseFloat(M5/100).toFixed(2);
                 break;
             default:
                 // code block
@@ -584,10 +582,10 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = parseInt((testArray[2]*2)*testArray[1])/25; 
+                szerkezet = parseFloat(parseFloat((testArray[2]*2)*testArray[1])/25).toFixed(2); 
                 break;
             case 3:
-                szerkezet = parseFloat(M5/25);
+                szerkezet = parseFloat(M5/25).toFixed(2);
                 break;
             default:
                 // code block
@@ -600,10 +598,10 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = (parseInt((testArray[2]*2)*testArray[1])/100)*6; 
+                szerkezet = parseFloat((parseFloat((testArray[2]*2)*testArray[1])/100)*6).toFixed(2); 
                 break;
             case 3:
-                szerkezet = parseFloat(M5/100*6);
+                szerkezet = parseFloat(M5/100*6).toFixed(2);
                 break;
             default:
                 // code block
@@ -621,7 +619,7 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = (testArray[2]*2)*parseInt(testArray[1]); 
+                szerkezet = parseFloat((testArray[2]*2)*parseFloat(testArray[1])).toFixed(2); 
                 break;
             case 3:
                 szerkezet = M4;
@@ -642,10 +640,10 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = (parseInt((testArray[2]*2)*testArray[1])/10)*testArray[1]; 
+                szerkezet = parseFloat((parseFloat((testArray[2]*2)*testArray[1])/10)*testArray[1]).toFixed(2); 
                 break;
             case 3:
-                szerkezet = M5/10*parseInt(testArray[4]);
+                szerkezet = parseFloat(M5/10*parseFloat(testArray[4])).toFixed(2);
                 break;
             default:
                 // code block
@@ -669,7 +667,7 @@ if(roofId==3){
         let szerkezet = 0;
         switch(roofId) {
             case 3:
-                szerkezet = parseFloat(testArray[5])*4; 
+                szerkezet = parseFloat(testArray[5]*4).toFixed(2); 
                 break;
             default:
                 // code block
@@ -687,28 +685,28 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
     var sumEgysegAr = egyseg*egysegar;
     var dijEgysegAr = egyseg*dijegyseg;
 
-    anyagmozgatas = parseInt(anyagmozgatas) + parseInt(egysegar);
+    anyagmozgatas = parseFloat(anyagmozgatas) + parseFloat(egysegar);
 
     egysegFullSum = egysegFullSum + sumEgysegAr;
     dijFulSum = dijFulSum + dijEgysegAr;
         
 
     _(id).innerHTML = egyseg;
-    _("anyag"+id).innerHTML = egysegar;
-        _("dij"+id).innerHTML = dijegyseg;
-        _("anyagSum"+id).innerHTML = sumEgysegAr;
-        _("dijSum"+id).innerHTML = dijEgysegAr;
+    _("anyag"+id).innerHTML = parseInt(egysegar);
+        _("dij"+id).innerHTML = parseInt(dijegyseg);
 
-        _("AnyagGTotal").innerHTML = egysegFullSum;
-        _("DijBGTotal").innerHTML = dijFulSum;
+        _("anyagSum"+id).innerHTML = parseFloat(sumEgysegAr).toFixed(2);
+        _("dijSum"+id).innerHTML = parseFloat(dijEgysegAr).toFixed(2);
 
-        _("BAnyagGTotal").innerHTML = egysegFullSum*1.25;
-        _("BDijBGTotal").innerHTML = dijFulSum*1.25;
+        _("AnyagGTotal").innerHTML = parseFloat(egysegFullSum).toFixed(2);
+        _("DijBGTotal").innerHTML = parseFloat(dijFulSum).toFixed(2);
+
+        _("BAnyagGTotal").innerHTML = (egysegFullSum*1.25).toFixed(2);
+        _("BDijBGTotal").innerHTML = (dijFulSum*1.25).toFixed(2);
 
         if(id > 12){
-        console.log("anyagmozgatas: " + anyagmozgatas);
-        _("11").innerHTML = anyagmozgatas*0.1;
-        _("12").innerHTML = anyagmozgatas*0.05;
+        _("11").innerHTML = parseFloat(anyagmozgatas*0.1).toFixed(2);
+        _("12").innerHTML = parseFloat(anyagmozgatas*0.05).toFixed(2);
         }
 
 }
@@ -716,20 +714,20 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
 
 /********************Original fuvarmazg calulator*****************/
 function fuvarmozg(id){
-    let beszerzes = parseInt(_("egysegar11").innerHTML);
-    let mozgatas = parseInt(_("egysegar12").innerHTML); 
+    let beszerzes = parseFloat(_("egysegar11").innerHTML);
+    let mozgatas = parseFloat(_("egysegar12").innerHTML); 
     
     if(tempArray.indexOf(id)<0){
         tempArray.push(id);
-        beszerzes = beszerzes + (0.1 * parseInt(_("egysegar"+id).innerHTML));
-        mozgatas = mozgatas + (0.05 * parseInt(_("egysegar"+id).innerHTML));
+        beszerzes = beszerzes + (0.1 * parseFloat(_("egysegar"+id).innerHTML));
+        mozgatas = mozgatas + (0.05 * parseFloat(_("egysegar"+id).innerHTML));
     }
 
     if(tempArray.indexOf(id)>-1 && _("mennyiseg"+id).value == 0){
         delete tempArray[tempArray.indexOf(id)];
 
-        beszerzes = beszerzes - (0.1 * parseInt(_("egysegar"+id).innerHTML));
-        mozgatas = mozgatas - (0.05 * parseInt(_("egysegar"+id).innerHTML));
+        beszerzes = beszerzes - (0.1 * parseFloat(_("egysegar"+id).innerHTML));
+        mozgatas = mozgatas - (0.05 * parseFloat(_("egysegar"+id).innerHTML));
     }
 }
     </script>
