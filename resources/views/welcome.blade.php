@@ -44,7 +44,7 @@
 .sum-table{
     width: 90vw;
     margin: auto; 
-    height: 200vh;
+    height: 150vh;
 }
 
 .hide{
