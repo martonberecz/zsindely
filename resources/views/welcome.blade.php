@@ -45,6 +45,7 @@
     width: 90vw;
     margin: auto; 
     height: 150vh;
+    font-size: 0.8vw;
 }
 
 .hide{
