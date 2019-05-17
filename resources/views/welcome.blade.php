@@ -83,11 +83,16 @@
         let optionalValues = {};
         let egysegFullSum = 0;
         let dijFulSum = 0;
+        let anyagmozgatas = 0;
+        let fuvarKoltseg = 0;
+        let optionals = "";
+
+
         function _(id){
             return document.getElementById(id);
         }
 
-        //*********************roof forms***********************/
+        //*********************roofs & forms***********************/
             function getRoofs() {
                 let toappend = "";
                 //fetch('http://localhost:8000/api/roofs')// http://142.93.170.119/api/roofs 
@@ -106,6 +111,19 @@
                     })
             }
            getRoofs(); 
+
+           function getConnector(id){
+             let fields = [];
+            //fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
+            fetch('http://142.93.170.119/api/FieldRoofConnector/'+id)
+                .then((res) => res.json())
+                .then((data) => {
+                    data.data.forEach(function (field) {
+                        fields.push(field.fieldId);
+                });                
+                    })
+            getForm(fields,id);
+         }
 
         function getForm(id,imgId) { 
            
@@ -133,25 +151,14 @@
                     })
         }
 
-         function getConnector(id){
-            console.log("Roof id: "+id);
-             let fields = [];
-            //fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
-            fetch('http://142.93.170.119/api/FieldRoofConnector/'+id)
-                .then((res) => res.json())
-                .then((data) => {
-                    data.data.forEach(function (field) {
-                        fields.push(field.fieldId);
-                });                
-                    })
-            getForm(fields,id);
-         }
+         
 
     function storeMain(name, id, roofId){        
         let inputValue = document.getElementById(name).value;
         testArray[id] = inputValue;      
     }
 
+///*****************************Optional page****************************************//////
     function getOptional(e, roofId) {
         e.preventDefault();
         console.log("Roof id: "+roofId);
@@ -179,35 +186,8 @@
                           
                 optionals += '</tbody></table><button class="btn btn-success btn-lg" onclick="getSummary(event,'+roofId+')">Elkuld</button></div>';
                 _("main-row").innerHTML = optionals;
-                    })
-    }
-    
-
-
-function fuvarmozg(id){
-    let beszerzes = parseInt(_("egysegar11").innerHTML);
-    let mozgatas = parseInt(_("egysegar12").innerHTML); 
-    
-    if(tempArray.indexOf(id)<0){
-        tempArray.push(id);
-        beszerzes = beszerzes + (0.1 * parseInt(_("egysegar"+id).innerHTML));
-        mozgatas = mozgatas + (0.05 * parseInt(_("egysegar"+id).innerHTML));
-    }
-
-    if(tempArray.indexOf(id)>-1 && _("mennyiseg"+id).value == 0){
-        delete tempArray[tempArray.indexOf(id)];
-
-        beszerzes = beszerzes - (0.1 * parseInt(_("egysegar"+id).innerHTML));
-        mozgatas = mozgatas - (0.05 * parseInt(_("egysegar"+id).innerHTML));
-    }
-
-    //anyag beszerzes id = 11
-        //anyagmozgatas id = 12
-        
-    _("egysegar11").innerHTML=beszerzes;
-    _("egysegar12").innerHTML=mozgatas;
+                    })   
 }
-
 
     function optionalSumFunc(id){         
         let amount = _(id).value;
@@ -221,7 +201,7 @@ function fuvarmozg(id){
         
     }
 
-    let optionals = "";
+ /////////////***************************The summary page start here*********************************///////////////   
 function getSummary(e,roofId){
     console.log("Roof id: "+roofId);
     e.preventDefault();
@@ -237,9 +217,10 @@ function getSummary(e,roofId){
     fetch('http://142.93.170.119/api/kalks')
         .then((res) => res.json())
         .then((data) => {                        
-            data.data.forEach(function (optional) {
+            data.data.forEach(function (optional) {                
+                mennyiseg = ((optional.id == optionalValues['id'+optional.id])? optionalValues[optional.id] : 0);
                 let something = '<tr><td>'+optional.title+'</td><td>'+optional.egyseg+'</td>'+
-                                '<td id="'+optional.id+'">'+((optional.id == optionalValues['id'+optional.id])? optionalValues[optional.id] : "0")+'</td>'+
+                                '<td id="'+optional.id+'">'+mennyiseg+'</td>'+
                                 '<td id="anyag'+optional.id+'"></td>'+
                                 '<td id="dij'+optional.id+'"></td>'+
                                 '<td id="anyagSum'+optional.id+'"></td>'+
@@ -250,21 +231,22 @@ function getSummary(e,roofId){
     })         
         })
         optionals += '</tbody><tr><td>Mindösszesen nettó: </td><td colspan="4"></td><td><span id="AnyagGTotal"></span></td><td><span id="DijBGTotal"></span></td></tr>'+
-                        '<tr><td>Mindösszesen bruttó: </td><td colspan="4"></td><td><span id="BAnyagGTotal"></span></td><td><span id="BDijBGTotal"></span></td></tr>'+
+                        '<tr><td>Mindösszesen bruttó: </td><td colspan="4"></td><td><span id="BAnyagGTotal"></span></td><td><span id="BDijBGTotal" ></span></td></tr>'+
                            '</table></div>'; 
     _("main-row").innerHTML = optionals;
+    console.log(optionalValues);
 }
 
 
-
+/**********************************************Calculator for the sum page********************************************/
 function calculator(id, egysegar,dijegyseg,optional,roofId){
-
-/****************Formulas****************/
-//P8 = SQRT(P2*P2-pow((M2-Q2)/2.2))
 let M5 = 0;
 let M4 = 0;
 let P8 = 0;
 
+/****************Formulas****************/
+
+       
 if(roofId==3){
     P8 = Math.sqrt(testArray[5]*testArray[5]-Math.pow(((testArray[2]-testArray[6])/2),2));
     //P7 = (L2*M2-2*P8)
@@ -286,6 +268,8 @@ if(roofId==3){
 
     console.log("Roof id: "+roofId);
 }
+
+//***********************Calculator for optionals*******************************/
     if(optional==1){
         var egysegAr = optionalValues[id]*egysegar;
         var dijEgysegAr = optionalValues[id]*dijegyseg;
@@ -293,6 +277,10 @@ if(roofId==3){
         _("dij"+id).innerHTML = dijegyseg;
         _("anyagSum"+id).innerHTML = egysegAr;
         _("dijSum"+id).innerHTML = dijEgysegAr;
+        if(optionalValues[id]>0){
+            anyagmozgatas = parseInt(anyagmozgatas) + parseInt(egysegar);
+        }
+        
     }
     
     if(optional!=1){
@@ -689,37 +677,61 @@ if(roofId==3){
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    }
-
+    }    
     
 }
 
+//**********************Calculator for non optionals***********************************///
 function egyseg(id,egyseg,egysegar,dijegyseg){
     
-    var egysegAr = egyseg*egysegar;
-        var dijEgysegAr = egyseg*dijegyseg;
+    var sumEgysegAr = egyseg*egysegar;
+    var dijEgysegAr = egyseg*dijegyseg;
 
-        egysegFullSum = egysegFullSum + egysegAr;
-        dijFulSum = dijFulSum + dijEgysegAr;
+    anyagmozgatas = parseInt(anyagmozgatas) + parseInt(egysegar);
 
+    egysegFullSum = egysegFullSum + sumEgysegAr;
+    dijFulSum = dijFulSum + dijEgysegAr;
         
 
     _(id).innerHTML = egyseg;
     _("anyag"+id).innerHTML = egysegar;
         _("dij"+id).innerHTML = dijegyseg;
-        _("anyagSum"+id).innerHTML = egysegAr;
+        _("anyagSum"+id).innerHTML = sumEgysegAr;
         _("dijSum"+id).innerHTML = dijEgysegAr;
 
         _("AnyagGTotal").innerHTML = egysegFullSum;
         _("DijBGTotal").innerHTML = dijFulSum;
 
-        _("BAnyagGTotal").innerHTML = egysegFullSum+(egysegFullSum*0.25);
-        _("BDijBGTotal").innerHTML = dijFulSum+(dijFulSum*0.25);
+        _("BAnyagGTotal").innerHTML = egysegFullSum*1.25;
+        _("BDijBGTotal").innerHTML = dijFulSum*1.25;
+
+        if(id > 12){
+        console.log("anyagmozgatas: " + anyagmozgatas);
+        _("11").innerHTML = anyagmozgatas*0.1;
+        _("12").innerHTML = anyagmozgatas*0.05;
+        }
 
 }
 
 
-//getSummary();
+/********************Original fuvarmazg calulator*****************/
+function fuvarmozg(id){
+    let beszerzes = parseInt(_("egysegar11").innerHTML);
+    let mozgatas = parseInt(_("egysegar12").innerHTML); 
+    
+    if(tempArray.indexOf(id)<0){
+        tempArray.push(id);
+        beszerzes = beszerzes + (0.1 * parseInt(_("egysegar"+id).innerHTML));
+        mozgatas = mozgatas + (0.05 * parseInt(_("egysegar"+id).innerHTML));
+    }
+
+    if(tempArray.indexOf(id)>-1 && _("mennyiseg"+id).value == 0){
+        delete tempArray[tempArray.indexOf(id)];
+
+        beszerzes = beszerzes - (0.1 * parseInt(_("egysegar"+id).innerHTML));
+        mozgatas = mozgatas - (0.05 * parseInt(_("egysegar"+id).innerHTML));
+    }
+}
     </script>
     </body>
 </html>
