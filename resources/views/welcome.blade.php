@@ -78,9 +78,11 @@
             
     <script>
         let formfields = "";
-        let testArray = {};
+        let testArray = [];
         let tempArray = [];
         let optionalValues = {};
+        let egysegFullSum = 0;
+        let dijFulSum = 0;
         function _(id){
             return document.getElementById(id);
         }
@@ -113,7 +115,7 @@
                     '<img src="../img/'+img+'calc.jpg" alt="" class="card-img-top">'+
                     '<div class="card-body">'+
                     '<p class="card-text"><form>';
-            //fetch('http://localhost:8000/api/fields')
+           //fetch('http://localhost:8000/api/fields')
             fetch('http://142.93.170.119/api/fields')
                 .then((res) => res.json())
                 .then((data) => {
@@ -247,7 +249,9 @@ function getSummary(e,roofId){
                  calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis,roofId)
     })         
         })
-        optionals += '</tbody></table></div><div class="row">Total value to pay: <span id="gTotal"></span></div>'; 
+        optionals += '</tbody><tr><td>Mindösszesen nettó: </td><td colspan="4"></td><td><span id="AnyagGTotal"></span></td><td><span id="DijBGTotal"></span></td></tr>'+
+                        '<tr><td>Mindösszesen bruttó: </td><td colspan="4"></td><td><span id="BAnyagGTotal"></span></td><td><span id="BDijBGTotal"></span></td></tr>'+
+                           '</table></div>'; 
     _("main-row").innerHTML = optionals;
 }
 
@@ -691,15 +695,27 @@ if(roofId==3){
 }
 
 function egyseg(id,egyseg,egysegar,dijegyseg){
-
+    
     var egysegAr = egyseg*egysegar;
         var dijEgysegAr = egyseg*dijegyseg;
+
+        egysegFullSum = egysegFullSum + egysegAr;
+        dijFulSum = dijFulSum + dijEgysegAr;
+
+        
 
     _(id).innerHTML = egyseg;
     _("anyag"+id).innerHTML = egysegar;
         _("dij"+id).innerHTML = dijegyseg;
         _("anyagSum"+id).innerHTML = egysegAr;
         _("dijSum"+id).innerHTML = dijEgysegAr;
+
+        _("AnyagGTotal").innerHTML = egysegFullSum;
+        _("DijBGTotal").innerHTML = dijFulSum;
+
+        _("BAnyagGTotal").innerHTML = egysegFullSum+(egysegFullSum*0.25);
+        _("BDijBGTotal").innerHTML = dijFulSum+(dijFulSum*0.25);
+
 }
 
 
