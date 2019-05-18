@@ -235,7 +235,7 @@ function getSummary(e,roofId){
                         '<tr><td>Mindösszesen bruttó: </td><td colspan="4"></td><td><span id="BAnyagGTotal"></span></td><td><span id="BDijBGTotal" ></span></td></tr>'+
                            '</table></div>'; 
     _("main-row").innerHTML = optionals;
-    console.log(optionalValues);
+    
 }
 
 
@@ -244,29 +244,80 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
 let M5 = 0;
 let M4 = parseFloat(2 * testArray[2]).toFixed(2);//M4 =2*M2
 let P8 = 0;
-
+let N2 = 0;
+let P2 = 0;
+let U2 = 0;
+let M2 = 0;
+let R2 = 0;
+let O2 = 0;
+let M8 = 0;
+let M6 = 0;
+let M7 = 0;
+let P7 = 0;
 /****************Formulas****************/
    
 if(roofId==3){
     P8 = Math.sqrt(testArray[5]*testArray[5]-Math.pow(((testArray[2]-testArray[6])/2),2));
     //P7 = (L2*M2-2*P8)
-    let P7 = testArray[1]*testArray[2]-2*P8;
+    P7 = testArray[1]*testArray[2]-2*P8;
     //M8 = P2+R2/2
-    let M8 = parseFloat(testArray[5])+(parseFloat(testArray[8]/2));
+    M8 = parseFloat(testArray[5])+(parseFloat(testArray[8]/2));
     //M6 = SQRT(M8*(M8-P2)*(M8-P2)*(M8-R2))
-    let M6 = Math.sqrt(M8*(M8-testArray[5])*(M8-testArray[5])-(M8-testArray[8]));                
+    M6 = Math.sqrt(M8*(M8-testArray[5])*(M8-testArray[5])-(M8-testArray[8]));                
     //M5 = 2*(P7+M6)
-     M5 = parseFloat( 2*(P7+M6)).toFixed(2);
-     
-     
+    M5 = parseFloat( 2*(P7+M6)).toFixed(2);
+}
 
-    // console.log("P8 = " +P8);
-    // console.log("P7 = " +P7);
-    // console.log("M8 = " +M8);    
-    // console.log("M6 = " +M6);
-    // console.log("M5 = " +M5);
+if(roofId == 4){
+    console.log(testArray[5]);
+    U2 = parseFloat(testArray[6]);
+    M2 = parseFloat(testArray[2]);
+    P2 = parseFloat(testArray[5]);
+    R2 = parseFloat(testArray[9]);
+    N2 = parseInt(testArray[3]);
+    O2 = parseFloat(testArray[4]);
+    M4 = 2*(M2+R2);
+    //=P2 + R2/2
+    M8 = P2 + R2/2;
+    //=SQRT(M8*(M8-P2)*(M8-P2)*(M8-R2))
+    M6 = Math.sqrt(M8*(M8-P2)*(M8-P2)*(M8-R2));
+    //=((M2+U2)/(4*(M2-U2)))*SQRT((M2-U2)*(M2-U2)*(M2+U2)*(-M2+U2+(P2*2))
+    M7 = ((M2+U2)/(4*(M2-U2)))*Math.sqrt((M2-U2)*(M2-U2)*(M2+U2)*(-M2+U2+(P2*2)));
+    //=2*(M7+M6)
+    M5 = 2*(M7+M6);
+}
 
-    // console.log("Roof id: "+roofId);
+
+if(roofId == 5){
+    M2 = parseFloat(testArray[2]);
+    N2 = parseInt(testArray[3]);
+    P2 = parseFloat(testArray[5]);
+    M4 = parseFloat(testArray[2])*4;
+    O2 = parseFloat(testArray[4]);
+    //=P2+M2/2
+    M8 = P2+M2/2;
+    //=SQRT(M8*(M8-P2)*(M8-P2)*(M8-M2))
+    M6 =Math.sqrt(M8*(M8-P2)*(M8-P2)*(M8-M2));
+    //4*M6
+    M5 =4*M6;
+}
+
+if(roofId == 6){
+    L2 = parseFloat(testArray[1]);
+    M2 = parseFloat(testArray[2]);
+    O2 = parseFloat(testArray[4]);
+    N2 = parseInt(testArray[3]);
+    R2 = parseFloat(testArray[13]);
+    M5 =L2*M2;
+}
+
+if(roofId == 7){
+    L2 = parseFloat(testArray[1]);
+    M2 = parseFloat(testArray[2]);
+    N2 = parseInt(testArray[3]);
+    O2 = parseFloat(testArray[4]);
+    M4 = M2*2;
+    M5 = L2*M2*2;
 }
 
 //***********************Calculator for optionals*******************************/
@@ -297,6 +348,22 @@ if(roofId==3){
                 // felig kontyolt nyereg 
                 szerkezet = M5;
                 break;
+            case 4:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;  
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;  
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;    
             default:
                 // code block
         }
@@ -316,6 +383,22 @@ if(roofId==3){
                 // felig kontyolt nyereg                
                 szerkezet = M5;
                 break;
+            case 4:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;  
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;   
             default:
                 // code block
         }
@@ -331,6 +414,22 @@ if(roofId==3){
                 szerkezet = M4;
                 break;
             case 3:
+                szerkezet = M4;
+                break;
+            case 4:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break; 
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M2;
+                break;
+            case 7:
+                //kontyolt nyeregteto
                 szerkezet = M4;
                 break;
             default:
@@ -350,6 +449,22 @@ if(roofId==3){
             case 3:
                 szerkezet = M4;
                 break;
+            case 4:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;    
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M2;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
             default:
                 // code block
         }
@@ -361,11 +476,26 @@ if(roofId==3){
         switch(roofId) {
             case 2:
                 // nyereg teteo
-                szerkezet = parseFloat(parseFloat(testArray[3]).toFixed(2)).toFixed(2); 
+                szerkezet = parseInt(testArray[3]); 
                 break;
             case 3:
-                szerkezet =parseFloat(parseFloat(testArray[3]).toFixed(2)).toFixed(2);
+                szerkezet =parseInt(testArray[3]);
                 break;
+            case 4:
+                szerkezet = parseInt(testArray[3]);
+                break;    
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = N2;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = N2;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = N2;
+                break;    
             default:
                 // code block
         }
@@ -382,6 +512,21 @@ if(roofId==3){
             case 3:
                 szerkezet = parseFloat(M4*(testArray[3]+1)*3).toFixed(2);//=M4*(N2+1)*3
                 break;
+            case 4:
+                szerkezet = (parseInt(testArray[3])+1)*3*M4;
+                break;   
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M4*(N2+1)*3;
+                break; 
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = (N2+1)*3*M2;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M4*(N2+1)*3;
+                break;    
             default:
                 // code block
         }
@@ -398,6 +543,21 @@ if(roofId==3){
             case 3:
                 szerkezet = parseFloat(4*parseFloat(testArray[5])+parseFloat(testArray[6])).toFixed(2);//=4*P2+Q2
                 break;
+            case 4:
+                szerkezet = 4*parseFloat(testArray[5])+parseFloat(testArray[6]);
+                break;    
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = 4*P2;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M5*0.1;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M2;
+                break;
             default:
                 // code block
         }
@@ -412,6 +572,21 @@ if(roofId==3){
             case 3:
                 szerkezet = M5;
                 break;
+            case 4:
+                szerkezet = M5;
+                break;    
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;   
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break; 
             default:
                 // code block
         }
@@ -426,6 +601,21 @@ if(roofId==3){
                 szerkezet = parseFloat((testArray[2]*2)*testArray[1]).toFixed(2); 
                 break;
             case 3:
+                szerkezet = M5;
+                break;
+            case 4:
+                szerkezet = M5;
+                break;    
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;
+            case 7:
+                //kontyolt nyeregteto
                 szerkezet = M5;
                 break;
             default:
@@ -444,6 +634,21 @@ if(roofId==3){
             case 3:
                 szerkezet = M4;
                 break;
+            case 4:
+                szerkezet = M4;
+                break;
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M2;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;    
             default:
                 // code block
         }
@@ -460,6 +665,21 @@ if(roofId==3){
             case 3:
                 szerkezet = M4;
                 break;
+            case 4:
+                szerkezet = M4;
+                break;
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M2;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;    
             default:
                 // code block
         }
@@ -476,6 +696,21 @@ if(roofId==3){
             case 3:
                 szerkezet = parseFloat(M5*1.1).toFixed(2);
                 break;
+            case 4:
+                szerkezet = M5*1.1;
+                break;
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M5*1.1;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M5*1.1;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M5*1.1;
+                break; 
             default:
                 // code block
         }
@@ -492,6 +727,21 @@ if(roofId==3){
             case 3:
                 szerkezet = M4;
                 break;
+            case 4:
+                szerkezet = M4;
+                break;
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M2;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;    
             default:
                 // code block
         }
@@ -508,6 +758,14 @@ if(roofId==3){
             case 3:
                 szerkezet = parseFloat(4*(testArray[1]-P8)).toFixed(2); //=4*(L2-P8)
                 break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = L2*2;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = L2*4;
+                break;
             default:
                 // code block
         }
@@ -522,6 +780,21 @@ if(roofId==3){
                 szerkezet = parseFloat((testArray[2]*2)*testArray[1]).toFixed(2); 
                 break;
             case 3:
+                szerkezet = M5;
+                break;
+            case 4:
+                szerkezet = M5;
+                break;
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;
+            case 7:
+                //kontyolt nyeregteto
                 szerkezet = M5;
                 break;
             default:
@@ -540,7 +813,23 @@ if(roofId==3){
             case 3:
                 szerkezet = parseFloat(testArray[2]*3).toFixed(2);
                 break;
+            case 4:
+                szerkezet = M4*3;
+                break;
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M4*3;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M2*3;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M4*3;
+                break;    
             default:
+
                 // code block
         }
         egyseg(id,szerkezet,egysegar,dijegyseg)
@@ -555,6 +844,13 @@ if(roofId==3){
                 break;
             case 3:
                 szerkezet = parseFloat(testArray[6]).toFixed(2);
+                break;
+            case 4:
+                szerkezet = parseFloat(testArray[6]).toFixed(2);
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M2;
                 break;
             default:
                 // code block
@@ -572,6 +868,21 @@ if(roofId==3){
             case 3:
                 szerkezet = parseFloat(M5/100).toFixed(2);
                 break;
+            case 4:
+                szerkezet = M5/100;
+                break;
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M5/100;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M5/100;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M5/100;
+                break;    
             default:
                 // code block
         }
@@ -587,6 +898,21 @@ if(roofId==3){
                 break;
             case 3:
                 szerkezet = parseFloat(M5/25).toFixed(2);
+                break;
+            case 4:
+                szerkezet = M5/25;
+                break;
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M5/25;
+                break;   
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M5/25;
+                break; 
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M5/25;
                 break;
             default:
                 // code block
@@ -604,16 +930,31 @@ if(roofId==3){
             case 3:
                 szerkezet = parseFloat(M5/100*6).toFixed(2);
                 break;
+            case 4:
+                szerkezet = M5/100*6;
+                break;
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M5/100*6;
+                break;    
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M5/100*6;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M5/100*6;
+                break;
             default:
                 // code block
         }
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
-    if(id==11){ //anyag fuvar ktg
-        let szerkezet = 0; //to be filled
-        egyseg(id,szerkezet,egysegar,dijegyseg)
-    }
+    // if(id==11){ //anyag fuvar ktg
+    //     let szerkezet = 0; //to be filled
+    //     egyseg(id,szerkezet,egysegar,dijegyseg)
+    // }
 
     if(id==33){ //kezdozsindely
         let szerkezet = 0;
@@ -625,6 +966,21 @@ if(roofId==3){
             case 3:
                 szerkezet = M4;
                 break;
+            case 4:
+                szerkezet = M4;
+                break;
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;    
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M2;
+                break;
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;  
             default:
                 // code block
         }
@@ -632,7 +988,7 @@ if(roofId==3){
     }
 
     if(id==34){ //mobilvc
-        let szerkezet = 0; //to be filled
+        let szerkezet = 1; //to be filled
         egyseg(id,szerkezet,egysegar,dijegyseg)
     }
 
@@ -646,6 +1002,21 @@ if(roofId==3){
             case 3:
                 szerkezet = parseFloat(M5/10*parseFloat(testArray[4])).toFixed(2);
                 break;
+            case 4:
+                szerkezet = M5/10*O2;
+                break;   
+            case 5:
+                //kontyolt nyeregteto
+                szerkezet = M5/10*O2;
+                break;  
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M5/10*O2;
+                break;   
+            case 7:
+                //kontyolt nyeregteto
+                szerkezet = M5/10*O2;;
+                break;
             default:
                 // code block
         }
@@ -658,6 +1029,16 @@ if(roofId==3){
             case 3:
                 szerkezet = 4; 
                 break;
+            case 4:
+                szerkezet = parseFloat(testArray[5])*4/1.5;
+                break;
+            case 5:
+                szerkezet = P2*4/1.5;
+                break;
+            case 6:
+                //kontyolt nyeregteto
+                szerkezet = M2;
+                break;    
             default:
                 // code block
         }
@@ -669,6 +1050,24 @@ if(roofId==3){
         switch(roofId) {
             case 3:
                 szerkezet = parseFloat(testArray[5]*4).toFixed(2); 
+                break;
+            case 4:
+                szerkezet = parseFloat(testArray[5])*4;
+                break;
+            case 5:
+                szerkezet = P2*4;
+                break;
+            default:
+                // code block
+        }
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==38){ //falszego lemez
+        let szerkezet = 0;
+        switch(roofId) {            
+            case 6:
+                szerkezet = R2;
                 break;
             default:
                 // code block
