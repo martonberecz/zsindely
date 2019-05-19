@@ -108,12 +108,14 @@
                                         `</div></div>`;
                 })
                           
-                document.getElementById("main").innerHTML = toappend;  
+                document.getElementById("main").innerHTML = toappend;                  
                     })
+                    
             }
            getRoofs(); 
 
            function getConnector(id){
+            console.log("getconnector roof id: " +id);
              let fields = [];
             //fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
             fetch('http://142.93.170.119/api/FieldRoofConnector/'+id)
@@ -124,11 +126,10 @@
                 });                
                     })
             getForm(fields,id);
+
          }
 
         function getForm(id,imgId) { 
-           
-            console.log("Roof id: "+imgId);
             let img = _(imgId).innerHTML.replace(/ /g, '').toLowerCase();
             formfields +='<div class="card card-form" style="width: 18rem;">'+
                     '<img src="../img/'+img+'calc.jpg" alt="" class="card-img-top">'+
@@ -141,6 +142,7 @@
                     data.data.forEach(function (field) {
                         let found = id.find(function(element){
                             return element == field.id;
+
                         });
                         if(field.id == found){ 
                                 formfields += `<div class="form-group"><label for="${field.fieldName}">${field.fieldName}</label><input id="${field.fieldName}" type="text" name="${field.fieldName}" class="form-control" onblur="storeMain('${field.fieldName}','${field.id}')"></div>`;                                                                                                                                              
@@ -162,7 +164,6 @@
 ///*****************************Optional page****************************************//////
     function getOptional(e, roofId) {
         e.preventDefault();
-        console.log("Roof id: "+roofId);
         _("main-row").innerHTML = "";
 
         let optionals = ""
@@ -204,7 +205,6 @@
 
  /////////////***************************The summary page start here*********************************///////////////   
 function getSummary(e,roofId){
-    console.log("Roof id: "+roofId);
     e.preventDefault();
     _("main-row").innerHTML = "";
         
@@ -254,6 +254,11 @@ let M8 = 0;
 let M6 = 0;
 let M7 = 0;
 let P7 = 0;
+let X2 = 0;
+let T2 = 0;
+let W2 = 0;
+let S2 = 0;
+let Q2 = 0;
 /****************Formulas****************/
    
 if(roofId==3){
@@ -269,7 +274,6 @@ if(roofId==3){
 }
 
 if(roofId == 4){
-    console.log(testArray[5]);
     U2 = parseFloat(testArray[6]);
     M2 = parseFloat(testArray[2]);
     P2 = parseFloat(testArray[5]);
@@ -320,6 +324,80 @@ if(roofId == 7){
     M5 = L2*M2*2;
 }
 
+if(roofId == 8){
+    
+    L2 = parseFloat(testArray[1]);
+    X2 = parseFloat(testArray[7]);
+    M2 = parseFloat(testArray[2]);
+    //=SQRT(pow(L2,2)+pow(X2-M2,2))
+    T2 = Math.sqrt(Math.pow(L2,2)+Math.pow(X2-M2,2));
+    U2 = parseFloat(testArray[6]);
+    R2 = parseFloat(testArray[9]);
+    V2 = parseFloat(testArray[10]);
+    W2 = parseFloat(testArray[11]);
+    M4 = parseFloat(M2+R2+V2+W2);
+    N2 = parseInt(testArray[3]);
+    O2 = parseFloat(testArray[4]);
+    
+    //=((x2+M2)/(4*(x2-M2)))*SQRT((x2+L2-M2+T2)*(x2-L2-M2+T2)*(x2+L2-M2-T2)*(-x2+L2+M2+T2))12
+    M7 =((X2+M2)/(4*(X2-M2)))*Math.sqrt(((X2+L2-M2+T2)*(X2-L2-M2+T2)*(X2+L2-M2-T2)*(-X2+L2+M2+T2))<0 ? (((X2+L2-M2+T2)*(X2-L2-M2+T2)*(X2+L2-M2-T2)*(-X2+L2+M2+T2))*-1):((X2+L2-M2+T2)*(X2-L2-M2+T2)*(X2+L2-M2-T2)*(-X2+L2+M2+T2)));
+    
+    //=((U2+R2)/(4*(U2-R2)))*SQRT((U2+L2-R2+T2)*(U2-L2-R2+T2)*(U2+L2-R2-T2)*(-U2+L2+R2+T2))
+    N7 = ((U2+R2)/(4*(U2-R2)))*Math.sqrt(((U2+L2-R2+T2)*(U2-L2-R2+T2)*(U2+L2-R2-T2)*(-U2+L2+R2+T2))<0? -1*((U2+L2-R2+T2)*(U2-L2-R2+T2)*(U2+L2-R2-T2)*(-U2+L2+R2+T2)):((U2+L2-R2+T2)*(U2-L2-R2+T2)*(U2+L2-R2-T2)*(-U2+L2+R2+T2)));
+
+    //=((V2+U2)/(4*(V2-U2)))*SQRT((V2+L2-U2+T2)*(V2-L2-U2+T2)*(V2+L2-U2-T2)*(-V2+L2+U2+T2))
+    O7 = ((V2+U2)/(4*(V2-U2)))*Math.sqrt((V2+L2-U2+T2)*(V2-L2-U2+T2)*(V2+L2-U2-T2)*(-V2+L2+U2+T2));
+
+    //=((W2+X2)/(4*(W2-X2)))*SQRT((W2+L2-X2+T2)*(W2-L2-X2+T2)*(W2+L2-X2-T2)*(-W2+L2+X2+T2))
+    P7=((W2+X2)/(4*(W2-X2)))*Math.sqrt((W2+L2-X2+T2)*(W2-L2-X2+T2)*(W2+L2-X2-T2)*(-W2+L2+X2+T2));
+
+    //=SUM(M7+N7+O7+P7)
+    M5 = (M7+N7+O7+P7);
+
+    
+}
+
+if(roofId == 9){
+    
+    L2 = parseFloat(testArray[1]);
+    X2 = parseFloat(testArray[7]);
+    M2 = parseFloat(testArray[2]);
+    U2 = parseFloat(testArray[6]);
+    R2 = parseFloat(testArray[9]);
+    N2 = parseInt(testArray[3]);
+    V2 = parseFloat(testArray[10]);
+    W2 = parseFloat(testArray[11]);
+    O2 = parseFloat(testArray[4]);
+    Y2 = parseFloat(testArray[16]);
+    M4 = M2+R2+V2+W2;
+    T2 = Math.sqrt(Math.pow(L2,2)+Math.pow(X2-M2,2));
+    M7 = ((X2+M2)/(4*(X2-M2)))*Math.sqrt(((X2+L2-M2+T2)*(X2-L2-M2+T2)*(X2+L2-M2-T2)*(-X2+L2+M2+T2)) < 0 ? -1*((X2+L2-M2+T2)*(X2-L2-M2+T2)*(X2+L2-M2-T2)*(-X2+L2+M2+T2)):((X2+L2-M2+T2)*(X2-L2-M2+T2)*(X2+L2-M2-T2)*(-X2+L2+M2+T2)));
+    N7 = ((U2+R2)/(4*(U2-R2)))*Math.sqrt(((U2+L2-R2+T2)*(U2-L2-R2+T2)*(U2+L2-R2-T2)*(-U2+L2+R2+T2)) < 0 ? -1*((U2+L2-R2+T2)*(U2-L2-R2+T2)*(U2+L2-R2-T2)*(-U2+L2+R2+T2)):((U2+L2-R2+T2)*(U2-L2-R2+T2)*(U2+L2-R2-T2)*(-U2+L2+R2+T2)));
+    O7 = ((V2+U2)/(4*(V2-U2)))*Math.sqrt(((V2+L2-U2+T2)*(V2-L2-U2+T2)*(V2+L2-U2-T2)*(-V2+L2+U2+T2)) < 0 ? -1*((V2+L2-U2+T2)*(V2-L2-U2+T2)*(V2+L2-U2-T2)*(-V2+L2+U2+T2)):((V2+L2-U2+T2)*(V2-L2-U2+T2)*(V2+L2-U2-T2)*(-V2+L2+U2+T2)));
+    P7 = ((W2+X2)/(4*(W2-X2)))*Math.sqrt(((W2+L2-X2+T2)*(W2-L2-X2+T2)*(W2+L2-X2-T2)*(-W2+L2+X2+T2)) < 0 ? -1*((W2+L2-X2+T2)*(W2-L2-X2+T2)*(W2+L2-X2-T2)*(-W2+L2+X2+T2)):((W2+L2-X2+T2)*(W2-L2-X2+T2)*(W2+L2-X2-T2)*(-W2+L2+X2+T2)));
+    M5 = M7+N7+O7+P7;
+
+}
+
+//this is complitly deifferent form the others as for the variable naming conventions
+if(roofId==13){
+    O2 = parseFloat(testArray[13]);
+    L2 = parseFloat(testArray[2]);
+    N2 = parseFloat(testArray[18]); 
+    P2 = parseInt(testArray[14]);
+    M2 = parseInt(testArray[9]);   
+    R2 = parseInt(testArray[3]); 
+    S2 = parseInt(testArray[4]); 
+    M3 = L2+M2;
+
+    Q2 = Math.sqrt(Math.pow(O2-L2,2)+Math.pow(N2,2));
+
+    console.log("q2"+Q2);
+    M6 = ((O2+L2)/(4*(O2-L2)))*Math.sqrt(((O2+N2-L2+Q2)*(O2-N2-L2+Q2)*(O2+N2-L2-Q2)*(-O2+N2+L2+Q2)) < 0 ?-1*((O2+N2-L2+Q2)*(O2-N2-L2+Q2)*(O2+N2-L2-Q2)*(-O2+N2+L2+Q2)):((O2+N2-L2+Q2)*(O2-N2-L2+Q2)*(O2+N2-L2-Q2)*(-O2+N2+L2+Q2)));
+    //=((N8+N10)/(4*(N8-N10)))*SQRT((N8+N9-N10+N11)*(N8-N9-N10+N11)*(N8+N9-N10-N11)*(-N8+N9+N10+N11))
+    N6 = ((P2+M2)/(4*(P2-M2)))*Math.sqrt(((P2+N2-M2+Q2)*(P2-N2-M2+Q2)*(P2+N2-M2-Q2)*(-P2+N2+M2+Q2)) < 0 ? -1*((P2+N2-M2+Q2)*(P2-N2-M2+Q2)*(P2+N2-M2-Q2)*(-P2+N2+M2+Q2)) :((P2+N2-M2+Q2)*(P2-N2-M2+Q2)*(P2+N2-M2-Q2)*(-P2+N2+M2+Q2)));
+    M4 = M6+N6;
+}
 //***********************Calculator for optionals*******************************/
     if(optional==1){
         var egysegAr = optionalValues[id]*egysegar;
@@ -364,6 +442,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M5;
                 break;    
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;    
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break; 
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;     
             default:
                 // code block
         }
@@ -399,6 +489,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M5;
                 break;   
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;  
             default:
                 // code block
         }
@@ -432,6 +534,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M4;
                 break;
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break; 
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M3;
+                break;     
             default:
                 // code block
                 }
@@ -465,6 +579,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M4;
                 break;
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M3;
+                break;  
             default:
                 // code block
         }
@@ -495,7 +621,19 @@ if(roofId == 7){
             case 7:
                 //kontyolt nyeregteto
                 szerkezet = N2;
-                break;    
+                break; 
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = N2;
+                break;  
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = N2;
+                break; 
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = R2;
+                break;
             default:
                 // code block
         }
@@ -527,6 +665,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M4*(N2+1)*3;
                 break;    
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break; 
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;   
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M3*(R2+1)*3;
+                break;
             default:
                 // code block
         }
@@ -558,6 +708,14 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M2;
                 break;
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = U2+X2+T2;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = U2+X2+T2;
+                break; 
             default:
                 // code block
         }
@@ -587,6 +745,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M5;
                 break; 
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break; 
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
             default:
                 // code block
         }
@@ -617,6 +787,18 @@ if(roofId == 7){
             case 7:
                 //kontyolt nyeregteto
                 szerkezet = M5;
+                break;
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;    
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break; 
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M4;
                 break;
             default:
                 // code block
@@ -649,6 +831,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M4;
                 break;    
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;  
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M3;
+                break;
             default:
                 // code block
         }
@@ -679,7 +873,19 @@ if(roofId == 7){
             case 7:
                 //kontyolt nyeregteto
                 szerkezet = M4;
-                break;    
+                break;   
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break; 
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;     
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M3;
+                break;
             default:
                 // code block
         }
@@ -711,6 +917,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M5*1.1;
                 break; 
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M5*1.1;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M5*1.1;
+                break; 
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M4*1.1;
+                break;
             default:
                 // code block
         }
@@ -741,7 +959,19 @@ if(roofId == 7){
             case 7:
                 //kontyolt nyeregteto
                 szerkezet = M4;
-                break;    
+                break;  
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;   
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M3;
+                break;
             default:
                 // code block
         }
@@ -765,6 +995,18 @@ if(roofId == 7){
             case 7:
                 //kontyolt nyeregteto
                 szerkezet = L2*4;
+                break;
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = L2*4;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = L2*4;
+                break; 
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = N2*2;
                 break;
             default:
                 // code block
@@ -797,6 +1039,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M5;
                 break;
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;   
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M5;
+                break;  
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
             default:
                 // code block
         }
@@ -827,7 +1081,19 @@ if(roofId == 7){
             case 7:
                 //kontyolt nyeregteto
                 szerkezet = M4*3;
-                break;    
+                break;   
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M4*3;
+                break; 
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M4*3;
+                break; 
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M3*3;
+                break;
             default:
 
                 // code block
@@ -851,6 +1117,14 @@ if(roofId == 7){
             case 7:
                 //kontyolt nyeregteto
                 szerkezet = M2;
+                break;
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = (X2)+(U2);
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = (X2)+(U2);
                 break;
             default:
                 // code block
@@ -883,6 +1157,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M5/100;
                 break;    
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M5/100;
+                break;  
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M5/100;
+                break;  
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M4/100;
+                break;
             default:
                 // code block
         }
@@ -914,6 +1200,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M5/25;
                 break;
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M5/25;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M5/25;
+                break;
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M4/25;
+                break;
             default:
                 // code block
         }
@@ -944,6 +1242,18 @@ if(roofId == 7){
             case 7:
                 //kontyolt nyeregteto
                 szerkezet = M5/100*6;
+                break;
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M5/100*6;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M5/100*6;
+                break;
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M4/100*6;
                 break;
             default:
                 // code block
@@ -981,6 +1291,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M4;
                 break;  
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M4;
+                break;
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M3;
+                break;
             default:
                 // code block
         }
@@ -1017,6 +1339,18 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M5/10*O2;;
                 break;
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = M5/10*O2;
+                break;
+            case 9:
+                //kontyolt nyeregteto
+                szerkezet = M5/10*O2;
+                break;
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = M4/10*S2;
+                break;
             default:
                 // code block
         }
@@ -1039,6 +1373,10 @@ if(roofId == 7){
                 //kontyolt nyeregteto
                 szerkezet = M2;
                 break;    
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = O2+P2;
+                break;
             default:
                 // code block
         }
@@ -1057,6 +1395,13 @@ if(roofId == 7){
             case 5:
                 szerkezet = P2*4;
                 break;
+            case 8:
+                //kontyolt nyeregteto
+                szerkezet = U2+X2+T2;
+                break;    
+            case 9:
+                szerkezet = U2+X2+T2+4*Y2;
+                break;
             default:
                 // code block
         }
@@ -1068,6 +1413,29 @@ if(roofId == 7){
         switch(roofId) {            
             case 6:
                 szerkezet = R2;
+                break;
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = O2+P2;
+                break;
+            default:
+                // code block
+        }
+        egyseg(id,szerkezet,egysegar,dijegyseg)
+    }
+
+    if(id==39){ //Vápa Színazonos anyagból Kaliforniai
+        let szerkezet = 0;
+        switch(roofId) {            
+            case 8:
+                szerkezet = T2;
+                break;
+            case 9:
+                szerkezet = T2;
+                break;
+            case 13:
+                //kontyolt nyeregteto
+                szerkezet = Q2;
                 break;
             default:
                 // code block
