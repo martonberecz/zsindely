@@ -38,3 +38,8 @@ Route::get('FieldRoofConnector/{id}', 'FieldRoofConnectorController@show');
 Route::post('FieldRoofConnector', 'FieldRoofConnectorController@store');
 Route::put('FieldRoofConnector/{id}', 'FieldRoofConnectorController@store');
 
+
+Route::get('orders', 'OrderController@index');
+Route::get('order/{id}', 'OrderController@show');
+Route::post('order', 'OrderController@store');
+Route::delete('order/{id}', 'OrderController@destroy');

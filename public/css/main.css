@@ -1,0 +1,56 @@
+
+            #main img{
+                max-width: 40vw;
+                max-height: 40vh;
+            }
+
+
+     .flex-container {
+        margin-top: 5vh;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+    .roofs {
+        flex-basis: 25%;
+        flex-grow: 1;
+        margin-right: 0.5vw;
+    }
+
+    .main-row{
+        height: 100vh;
+    }
+
+    .roofs{
+        margin-bottom: 1vh;
+        border: none;
+    }
+
+    .card-text{
+        text-align: center;
+    }
+
+.sum-table{
+    width: 90vw;
+    margin: auto; 
+    max-height: 150vh;
+    font-size: 0.9vw;
+}
+
+.hide{
+    display: none;
+}
+
+.email{
+    width: 80vw;    
+    margin: auto;
+}
+
+.email input{
+    max-width: 30vw;        
+}
+
+.row{
+    margin-top: 3vh;
+}
