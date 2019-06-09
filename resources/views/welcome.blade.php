@@ -53,8 +53,8 @@ function _(id){
 //*********************roofs & forms***********************/
 function getRoofs() {
     let toappend = "";
-    fetch('http://localhost:8000/api/roofs')// http://142.93.170.119/api/roofs 
-    //fetch('http://142.93.170.119/api/roofs')
+    //fetch('http://localhost:8000/api/roofs')// http://142.93.170.119/api/roofs 
+    fetch('http://142.93.170.119/api/roofs')
         .then((res) => res.json())
         .then((data) => {
             data.data.forEach(function (roof) {
@@ -74,8 +74,8 @@ function getRoofs() {
 function getConnector(id){
     roofId = id;
     let fields = [];
-    fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
-    //fetch('http://142.93.170.119/api/FieldRoofConnector/'+id)
+    //fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
+    fetch('http://142.93.170.119/api/FieldRoofConnector/'+id)
         .then((res) => res.json())
         .then((data) => {
             data.data.forEach(function (field) {
@@ -95,8 +95,8 @@ function getForm(id,imgId) {
             '<img src="../img/'+img+'calc.jpg" alt="" class="card-img-top">'+
             '<div class="card-body">'+
             '<p class="card-text"><form>';
-    fetch('http://localhost:8000/api/fields')
-    //fetch('http://142.93.170.119/api/fields')
+    //fetch('http://localhost:8000/api/fields')
+    fetch('http://142.93.170.119/api/fields')
         .then((res) => res.json())
         .then((data) => {
             data.data.forEach(function (field) {
@@ -128,8 +128,8 @@ function storeMain(name, id, roofId){
             '<table class="table table-striped table-sm"><thead><tr>'+
             '<th>Tétel szövege</th><th>Mennyiseg</th><th>Egység</th>'+
             '<th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th></tr></thead><tbody>';
-        fetch('http://localhost:8000/api/kalks')
-        //fetch('http://142.93.170.119/api/kalks')
+        //fetch('http://localhost:8000/api/kalks')
+        fetch('http://142.93.170.119/api/kalks')
             .then((res) => res.json())
             .then((data) => {
                 data.data.forEach(function (optional) {
@@ -171,8 +171,8 @@ function getSummary(e,roofId){
     '<th>Tétel szövege</th><th>Klick ha keri</th><th>Egység</th><th>Mennyiseg</th><th>Anyag egységár (Ft)</th><th>Díj egységre (Ft)</th><th>Anyag összesen (Ft)</th><th>Díj összesen (Ft)</th>'+
     '</tr></thead><tbody class="inner">';
 
-    fetch('http://localhost:8000/api/kalks')
-    //fetch('http://142.93.170.119/api/kalks')
+    //fetch('http://localhost:8000/api/kalks')
+    fetch('http://142.93.170.119/api/kalks')
     .then((res) => res.json())
     .then((data) => {                        
         data.data.forEach(function (optional) {
@@ -303,7 +303,7 @@ function storeOrder(productId, egyseg){
     order.mennyiseg = egyseg;
 
     $.ajax({  
-        url: 'http://localhost:8000/api/order',  
+        url: 'http://142.93.170.119/api/order',  
         type: 'POST',  
         dataType: 'json',  
         data: order,  
