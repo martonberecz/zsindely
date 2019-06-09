@@ -251,68 +251,7 @@ function addToFinal(id){
 }
 
 
-//**********************Calculator for non optionals***********************************///
-function egyseg(id,egyseg,egysegar,dijegyseg){
 
-    var sumEgysegAr = egyseg*egysegar;
-    var dijEgysegAr = egyseg*dijegyseg;
-
-
-    //The anyagbeszerzes & fuvarkoltseg
-    if(parseInt(egyseg) > 0 && !finalOptionals.includes(id,0)){
-    anyagmozgatas = parseFloat(anyagmozgatas) + parseFloat(egysegar);      
-
-    }
-
-    //The final amount
-    if(!finalOptionals.includes(id,0)){
-    egysegFullSum = egysegFullSum + sumEgysegAr;
-    dijFulSum = dijFulSum + dijEgysegAr;
-    }
-
-
-    _(id).innerHTML = egyseg;
-    _("anyag"+id).innerHTML = parseInt(egysegar);
-    _("dij"+id).innerHTML = parseInt(dijegyseg);
-
-    _("anyagSum"+id).innerHTML = parseFloat(sumEgysegAr).toFixed(2);
-    _("dijSum"+id).innerHTML = parseFloat(dijEgysegAr).toFixed(2);
-
-    _("AnyagGTotal").innerHTML = parseFloat(egysegFullSum).toFixed(2);
-    _("DijBGTotal").innerHTML = parseFloat(dijFulSum).toFixed(2);
-
-
-        _("BAnyagGTotal").innerHTML = (egysegFullSum*1.25).toFixed(2);
-        _("BDijBGTotal").innerHTML = (dijFulSum*1.25).toFixed(2);
-
-
-    if(id > 12){
-        _("11").innerHTML = parseFloat(anyagmozgatas*0.1).toFixed(2);
-        _("12").innerHTML = parseFloat(anyagmozgatas*0.05).toFixed(2);        
-    }
-
-    if(elkuld>0 && egyseg>0){
-        storeOrder(parseInt(id), parseFloat(egyseg))
-    }
-}
-
-function storeOrder(productId, egyseg){
-    var order = new Object();  
-    order.orderId = 111; 
-    order.productId = productId;
-    order.mennyiseg = egyseg;
-
-    $.ajax({  
-        url: 'http://142.93.170.119/api/order',  
-        type: 'POST',  
-        dataType: 'json',  
-        data: order,  
-        success: console.log('success')  
-        
-    });
-    _("main_table").className=" hide";
-    _("email").className=" hide";
-}
 
 
 
@@ -1656,6 +1595,68 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
         }    
         
     }
+    //**********************Calculator for non optionals***********************************///
+function egyseg(id,egyseg,egysegar,dijegyseg){
+
+var sumEgysegAr = egyseg*egysegar;
+var dijEgysegAr = egyseg*dijegyseg;
+
+
+//The anyagbeszerzes & fuvarkoltseg
+if(parseInt(egyseg) > 0 && !finalOptionals.includes(id,0)){
+anyagmozgatas = parseFloat(anyagmozgatas) + parseFloat(egysegar);      
+
+}
+
+//The final amount
+if(!finalOptionals.includes(id,0)){
+egysegFullSum = egysegFullSum + sumEgysegAr;
+dijFulSum = dijFulSum + dijEgysegAr;
+}
+
+
+_(id).innerHTML = egyseg;
+_("anyag"+id).innerHTML = parseInt(egysegar);
+_("dij"+id).innerHTML = parseInt(dijegyseg);
+
+_("anyagSum"+id).innerHTML = parseFloat(sumEgysegAr).toFixed(2);
+_("dijSum"+id).innerHTML = parseFloat(dijEgysegAr).toFixed(2);
+
+_("AnyagGTotal").innerHTML = parseFloat(egysegFullSum).toFixed(2);
+_("DijBGTotal").innerHTML = parseFloat(dijFulSum).toFixed(2);
+
+
+    _("BAnyagGTotal").innerHTML = (egysegFullSum*1.25).toFixed(2);
+    _("BDijBGTotal").innerHTML = (dijFulSum*1.25).toFixed(2);
+
+
+if(id > 12){
+    _("11").innerHTML = parseFloat(anyagmozgatas*0.1).toFixed(2);
+    _("12").innerHTML = parseFloat(anyagmozgatas*0.05).toFixed(2);        
+}
+
+if(elkuld>0 && egyseg>0){
+    storeOrder(parseInt(id), parseFloat(egyseg))
+}
+}
+
+function storeOrder(productId, egyseg){
+var order = new Object();  
+order.orderId = 111; 
+order.productId = productId;
+order.mennyiseg = egyseg;
+
+$.ajax({  
+    url: 'http://142.93.170.119/api/order',  
+    type: 'POST',  
+    dataType: 'json',  
+    data: order,  
+    success: console.log('success')  
+    
+});
+_("main_table").className=" hide";
+_("email").className=" hide";
+}
 </script>
 </body>
 </html>
