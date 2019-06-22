@@ -2,7 +2,7 @@
 /**********************************************Calculator for the sum page********************************************/
 
 function calculator(id, egysegar,dijegyseg,optional,roofId){
-    let M5 = 0;
+       let M5 = 0;
     let M4 = parseFloat(2 * testArray[2]).toFixed(2);//M4 =2*M2
     let P8 = 0;
     let N2 = 0;
@@ -207,10 +207,6 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             _("dijSum"+id).innerHTML = parseFloat(dijEgysegAr).toFixed(2);
             if(optionalValues[id]>0){
                 anyagmozgatas = parseFloat(anyagmozgatas) + parseFloat(egysegar);
-            }
-
-            if(elkuld>0 && optionalValues[id]>0){
-                storeOrder(id, optionalValues[id])
             }
             
         }
@@ -1338,3 +1334,5 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
         }    
         
     }
+
+    

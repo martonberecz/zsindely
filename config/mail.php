@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME'),
+    'username' => env('1berecz.marton@gmail.com'),
 
-    'password' => env('MAIL_PASSWORD'),
+    'password' => env('*$t4r*P0rt*'),
 
     /*
     |--------------------------------------------------------------------------

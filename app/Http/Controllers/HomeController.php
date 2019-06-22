@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Order;
 use Illuminate\Http\Request;
+use Mail;
+use App\Mail\OrderMail;
 
 class HomeController extends Controller
 {
@@ -13,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
@@ -24,5 +26,30 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function emailContent($orderId, $mailTo){
+
+        $order = Order::where('orderId', $orderId)->get();
+        
+        // $subj = 'order - '.$orderId;
+        // $order = $order->toArray();
+        // $data = array(
+        //     'email' => $mailTo,
+        //     'subject' => $subj,
+        //     'bodyMessage' => 'Something'
+        // );
+
+        //dd($order);
+       Mail::to($mailTo)->send(new OrderMail($order));
+    }
+
+    public function sendOrder(Request $request){
+        //dd($request);
+        $orderId = $request->orderId;
+        $email = $request->email;
+        return $this->emailContent($orderId, $email);
+        
+
     }
 }

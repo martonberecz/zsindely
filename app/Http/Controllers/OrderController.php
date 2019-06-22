@@ -38,15 +38,26 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request)    
     {
-        //
+       $payLoad = json_decode($request->getContent(), true);     
+       
+       
+       foreach($payLoad as $pay){
         $order = new Order;
+        $order->orderId = $pay["orderId"];
+        $order->productId = $pay["productId"];
+        $order->mennyiseg = $pay["mennyiseg"]; 
+        $order->save();
+       }       
+       
+       //print ($payLoad[0]["orderId"]);
+       $order = Order::where('orderId', $payLoad[0]["orderId"])->first(); //
 
-        $order->orderId = $request->orderId;
-        $order->productId = $request->productId;
-        $order->mennyiseg = $request->mennyiseg;
-        $order->save();        
+       if($order['orderId']>0){
+        return new OrderResource($order);
+       }      
+                
     }
 
     /**
@@ -63,6 +74,7 @@ class OrderController extends Controller
         //return collection of orders as a resource
         return OrderResource::collection($orders);
     }
+   
 
     /**
      * Show the form for editing the specified resource.
@@ -101,7 +113,6 @@ class OrderController extends Controller
             $order = Order::findOrFail($id);
             $order->delete();
         }
-        return OrderResource::collection($orders);
-        
+        return OrderResource::collection($orders);        
     }
 }

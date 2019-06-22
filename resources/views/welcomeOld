@@ -43,11 +43,9 @@ let anyagmozgatas = 0;
 let fuvarKoltseg = 0;
 let optionals = "";
 let roofId = 0;
+let elkuld = 0;
 let orderId = 0;
 let eamilfield = "";
-//the toggle calculated fields
-let addToFinalToggle = [];
-let finalOptionals = [15,16,19,21,22,23,24,25,26,27,28,32,33,36,37,38,39];
 
 
 //**********************Calculator for none optionals***********************************///
@@ -87,7 +85,11 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
     if(id > 12){
         _("11").innerHTML = parseFloat(anyagmozgatas*0.1).toFixed(2);
         _("12").innerHTML = parseFloat(anyagmozgatas*0.05).toFixed(2);        
-    }   
+    }    
+
+    if(elkuld>0 && egyseg>0){
+        storeOrder(parseInt(id), parseFloat(egyseg))
+    }    
     
 }
 
@@ -171,7 +173,6 @@ function storeMain(name, id, roofId){
 
     ///*****************************Optional page****************************************//////
     function getOptional(e, roofId) {
-        orderId = Math.floor(Math.random() * (199896 - roofId) + roofId);        
     e.preventDefault();
     _("main-row").innerHTML = "";
 
@@ -214,7 +215,7 @@ function optionalSumFunc(id){
 
 
 /////////////***************************The summary page start here*********************************///////////////   
-function getSummary(e,roofId){   
+function getSummary(e,roofId){
     _("main-row").innerHTML = "";
 
     optionals += '<div class="table-responsive">'+
@@ -235,7 +236,7 @@ function getSummary(e,roofId){
                                 ((finalOptionals.includes(optional.id,0))? '<button class="btn btn-outline-dark btn-sm" data-toggle="button" onclick="addToFinal('+optional.id+',event)" id="addToFinal_'+optional.id+'">+</button>':'')+
                             '</td>'+
                             '<td>'+optional.egyseg+'</td>'+
-                            '<td id="'+optional.id+'"  class="egysegVal">'+mennyiseg+'</td>'+
+                            '<td id="'+optional.id+'">'+mennyiseg+'</td>'+
                             '<td id="anyag'+optional.id+'"></td>'+
                             '<td id="dij'+optional.id+'"></td>'+
                             '<td id="anyagSum'+optional.id+'"></td>'+
@@ -253,19 +254,20 @@ function getSummary(e,roofId){
                         `</table></div><div id="emaildiv" class="email">`+
                             `<form id="emailform" name="emailform" method="POST" action="{{ action('HomeController@sendOrder') }}" accept-charset="UTF-8">`+
                                 `{{ csrf_field() }}`+
-                                `<input type="hidden" class="form-control" id="orderId_form" name="orderId">`+
+                                `<input name="orderId" type="hidden" id="orderId"/>`+
                                 `<lable for="email">Email</lable>`+
                                 `<input type="text" class="form-control" id="emailfield" placeholder="eamil@freemail.hu" name="email">`+
                             `</form>`+
                                 `<div class="row">`+
-                                `<button class="btn btn-secondary btn-block" onclick="storeOrder(event)" id="kuld">Elkuld</button></div>`; 
+                                `<button class="btn btn-secondary btn-block" onclick="createOrder(event,${roofId})" id="kuld">Elkuld</button></div>`; 
     _("main-row").innerHTML = optionals;
-    _("orderId_form").value = orderId;
 
 }
 
 
-
+//the toggle calculated fields
+let addToFinalToggle = [];
+let finalOptionals = [15,16,19,21,22,23,24,25,26,27,28,32,33,36,37,38,39];
 
 function addToFinal(id,event){
     event.preventDefault();
@@ -281,16 +283,27 @@ function addToFinal(id,event){
         egysegFullSum = egysegFullSum + sumEgysegAr;
         dijFulSum = dijFulSum + dijEgysegAr;
         anyagmozgatas = parseFloat(anyagmozgatas) + egyseges;
-        
+         //*count the fields with value in it*/
+        if(sumEgysegAr !=0){       
+            countFieldValues = countFieldValues + 1;
+            counterCountValueFields = counterCountValueFields+1;
+        }
     }else{
     //remove element from the array
     addToFinalToggle = addToFinalToggle.filter(function(item) { 
         return item !== id
     })
     egysegFullSum = egysegFullSum - sumEgysegAr;
-    dijFulSum = dijFulSum - dijEgysegAr;    
+    dijFulSum = dijFulSum - dijEgysegAr;
+    if(counterCountValueFields>0){
+        counterCountValueFields = counterCountValueFields-1;
+    }
     anyagmozgatas = parseFloat(anyagmozgatas) - egyseges;
-    
+
+    //*count the fields with value in it*/
+    if(sumEgysegAr !=0){  
+        countFieldValues = countFieldValues - 1;
+    }
     }    
 
     //anyagbeszerzes/mozgatas
@@ -309,48 +322,34 @@ function addToFinal(id,event){
 
 
 
-function storeOrder(event){
-    event.preventDefault();
-    var orders = [];
-
-    var item = {};
-        $(".egysegVal").each(function() {
-            if(this.innerHTML != '0' && !finalOptionals.includes(parseInt(this.id),0)) {
-                item = {
-                    'orderId' : orderId,
-                    'productId' : this.id.toString(),
-                    'mennyiseg' : document.getElementById(this.id).innerHTML
-                    }
-                orders.push(item);
-            }
-
-            if(addToFinalToggle.includes(parseInt(this.id),0)){
-                item = {
-                    'orderId' : orderId,
-                    'productId' : this.id.toString(),
-                    'mennyiseg' : document.getElementById(this.id).innerHTML
-                    }
-                orders.push(item);
-            }
-        });
-        //console.log(orders);
-    
+function storeOrder(productId, egyseg){
+    var order = new Object();
+     order.orderId = orderId.toString();
+     order.productId = productId.toString();
+     order.mennyiseg = egyseg.toString();
     fetch('http://localhost:8000/api/order', {
        method:'POST',
        headers:{
            'Accept': 'application/json, text/plain, */*',
            'Content-type': 'application/json'
        },
-       body:JSON.stringify(orders)
+       body:JSON.stringify(order),
    })
-   .then((res)=>res.json())
-   .then((data) => console.log(data))
-   .then(function(){       
-       $("#emailform" ).submit();
-  })   
-   _("main_table").className=" hide";
-
+        
+    _("main_table").className=" hide";
+    
 }
+
+
+//on elkuld
+function createOrder(event, roofId){
+    event.preventDefault();    
+    elkuld = 1;     
+    getSummary(event, roofId)   
+//    document.getElementById("emailform").submit();
+    
+}
+
 
 
 </script>
