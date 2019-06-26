@@ -54,13 +54,7 @@ let finalOptionals = [15,16,19,21,22,23,24,25,26,27,28,32,33,36,37,38,39];
 function egyseg(id,egyseg,egysegar,dijegyseg){
     var sumEgysegAr = egyseg*egysegar;
     var dijEgysegAr = egyseg*dijegyseg;
-
-
-    //The anyagbeszerzes & fuvarkoltseg
-    if(parseInt(egyseg) > 0 && !finalOptionals.includes(id,0)){
-     anyagmozgatas = parseFloat(anyagmozgatas) + parseFloat(egysegar);      
-
-    }
+    
 
     //The final amount
     if(!finalOptionals.includes(id,0)){
@@ -79,6 +73,11 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
     _("AnyagGTotal").innerHTML = parseFloat(egysegFullSum).toFixed(2);
     _("DijBGTotal").innerHTML = parseFloat(dijFulSum).toFixed(2);
 
+    //The anyagbeszerzes & fuvarkoltseg
+    if(parseInt(egyseg) > 0 && !finalOptionals.includes(id,0)){
+     anyagmozgatas = parseFloat(egysegFullSum).toFixed(2);      
+
+    }
 
     _("BAnyagGTotal").innerHTML = (egysegFullSum*1.25).toFixed(2);
     _("BDijBGTotal").innerHTML = (dijFulSum*1.25).toFixed(2);
@@ -118,6 +117,7 @@ function getRoofs() {
 
 function getConnector(id){
     roofId = id;
+    console.log(id);
     let fields = [];
     //fetch('http://localhost:8000/api/FieldRoofConnector/'+id)
     fetch('http://142.93.170.119/api/FieldRoofConnector/'+id)
@@ -165,8 +165,13 @@ function getForm(id,imgId) {
 }    
 
 function storeMain(name, id, roofId){        
+    if(!minusFieldValidation(name)){
+        alert("The field value has to be bigger than 0!")
+    }else{ 
     let inputValue = document.getElementById(name).value;
-    testArray[id] = inputValue;      
+    testArray[id] = inputValue;   
+    }     
+
     }
 
     ///*****************************Optional page****************************************//////
@@ -190,8 +195,8 @@ function storeMain(name, id, roofId){
                         optionals += `<tr><td>${optional.title}</td><td>`+
                         `<input type="text" class="form-control" id="${optional.id}" placeholder="0" onkeyup="optionalSumFunc(${optional.id})"></td>`+
                         `<td>${optional.egyseg}</td><td id="egysegar${optional.id}">${optional.egysegar}</td><td id="dijegysegre${optional.id}">${optional.dijegysegre}</td>`+
-                        `<td><input type="text" class="form-control" id="anyagSum${optional.id}" placeholder="0"></td>`+
-                        `<td><input type="text" class="form-control" id="sum${optional.id}" placeholder="0"></td></tr>`;
+                        `<td><input type="text" class="form-control" id="anyagSum${optional.id}" placeholder="0" disabled></td>`+
+                        `<td><input type="text" class="form-control" id="sum${optional.id}" placeholder="0" disabled></td></tr>`;
                     }
         })
                     
@@ -200,16 +205,31 @@ function storeMain(name, id, roofId){
             })   
 }
 
-function optionalSumFunc(id){         
-    let amount = _(id).value;
-    optionalValues['id'+id]=id;
-    optionalValues[id]= amount;      
-    let anyag = (amount * parseInt(_("egysegar"+id).innerHTML));
-    let dijEgyseg = (amount * parseInt(_("dijegysegre"+id).innerHTML));
+function minusFieldValidation(id){
+    if(_(id).value<0){
+        _(id).value = "";
+        _(id).style = "border: none;border: 1px solid red";
+        return false;
+    }
+    else{
+        _(id).style = "border: 1px solid #ddd";
+        return true;
+    }
+}
 
-    _("anyagSum"+id).value=anyag;
-    _("sum"+id).value=dijEgyseg;  
+function optionalSumFunc(id){ 
+    if(!minusFieldValidation(id)){
+        alert("The field value has to be bigger than 0!")
+    }else{        
+        let amount = _(id).value;
+        optionalValues['id'+id]=id;
+        optionalValues[id]= amount;      
+        let anyag = (amount * parseInt(_("egysegar"+id).innerHTML));
+        let dijEgyseg = (amount * parseInt(_("dijegysegre"+id).innerHTML));
 
+        _("anyagSum"+id).value=anyag;
+        _("sum"+id).value=dijEgyseg;  
+    }
 }
 
 
@@ -255,7 +275,7 @@ function getSummary(e,roofId){
                                 `{{ csrf_field() }}`+
                                 `<input type="hidden" class="form-control" id="orderId_form" name="orderId">`+
                                 `<lable for="email">Email</lable>`+
-                                `<input type="text" class="form-control" id="emailfield" placeholder="eamil@freemail.hu" name="email">`+
+                                `<input type="text" class="form-control" id="emailfield" placeholder="eamil@freemail.hu" name="email" onblur="validation()">`+
                             `</form>`+
                                 `<div class="row">`+
                                 `<button class="btn btn-secondary btn-block" onclick="storeOrder(event)" id="kuld">Elkuld</button></div>`; 
@@ -264,8 +284,15 @@ function getSummary(e,roofId){
 
 }
 
+/*email validation*/  
 
-
+function validation(){
+    let email = _('emailfield').value;      
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(re.test(String(email).toLowerCase())==false){
+        alert("Invalid email address!");
+    }
+}
 
 function addToFinal(id,event){
     event.preventDefault();
@@ -279,27 +306,23 @@ function addToFinal(id,event){
     if(!addToFinalToggle.includes(id)){
         addToFinalToggle.push(id);
         egysegFullSum = egysegFullSum + sumEgysegAr;
-        dijFulSum = dijFulSum + dijEgysegAr;
-        anyagmozgatas = parseFloat(anyagmozgatas) + egyseges;
-        
+        dijFulSum = dijFulSum + dijEgysegAr;        
     }else{
     //remove element from the array
     addToFinalToggle = addToFinalToggle.filter(function(item) { 
         return item !== id
     })
     egysegFullSum = egysegFullSum - sumEgysegAr;
-    dijFulSum = dijFulSum - dijEgysegAr;    
-    anyagmozgatas = parseFloat(anyagmozgatas) - egyseges;
-    
+    dijFulSum = dijFulSum - dijEgysegAr; 
     }    
-
-    //anyagbeszerzes/mozgatas
-    _("11").innerHTML = parseFloat(anyagmozgatas*0.1).toFixed(2);
-    _("12").innerHTML = parseFloat(anyagmozgatas*0.05).toFixed(2);
+    
 
     //net total
     _("AnyagGTotal").innerHTML = parseFloat(egysegFullSum).toFixed(2);
     _("DijBGTotal").innerHTML = parseFloat(dijFulSum).toFixed(2);
+
+    _("11").innerHTML = parseFloat(parseFloat(egysegFullSum).toFixed(2)*0.1).toFixed(2);
+    _("12").innerHTML = parseFloat(parseFloat(egysegFullSum).toFixed(2)*0.05).toFixed(2);
 
     //brut total
     _("BAnyagGTotal").innerHTML = (egysegFullSum*1.25).toFixed(2);

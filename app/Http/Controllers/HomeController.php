@@ -31,16 +31,8 @@ class HomeController extends Controller
     public function emailContent($orderId, $mailTo){
 
         $order = Order::where('orderId', $orderId)->get();
-        
-        // $subj = 'order - '.$orderId;
-        // $order = $order->toArray();
-        // $data = array(
-        //     'email' => $mailTo,
-        //     'subject' => $subj,
-        //     'bodyMessage' => 'Something'
-        // );
 
-        //dd($order);
+        
        Mail::to($mailTo)->send(new OrderMail($order));
     }
 

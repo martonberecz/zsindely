@@ -26,15 +26,24 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
     let O11 = 0;
     
     /****************Formulas****************/
-       
+    if(roofId==2){
+        M2 = parseFloat(testArray[2]);
+        L2 = parseFloat(testArray[1]);
+        N2 = parseFloat(testArray[3]);
+        O2 = parseFloat(testArray[4]);
+        N4 = 2*M2*L2;
+        N5 = 2*M2;
+
+    }
+    
     if(roofId==3){
-        P8 = Math.sqrt(testArray[5]*testArray[5]-Math.pow(((testArray[2]-testArray[6])/2),2));
+        P8 = Math.sqrt(parseFloat(testArray[5])*parseFloat(testArray[5])-Math.pow(((parseFloat(testArray[2])-parseFloat(testArray[6]))/2),2));
         //P7 = (L2*M2-2*P8)
-        P7 = testArray[1]*testArray[2]-2*P8;
+        P7 = parseFloat(testArray[1])*parseFloat(testArray[2])-2*P8;
         //M8 = P2+R2/2
         M8 = parseFloat(testArray[5])+(parseFloat(testArray[8]/2));
         //M6 = SQRT(M8*(M8-P2)*(M8-P2)*(M8-R2))
-        M6 = Math.sqrt(M8*(M8-testArray[5])*(M8-testArray[5])-(M8-testArray[8]));                
+        M6 = Math.sqrt(M8*(M8-parseFloat(testArray[5]))*(M8-parseFloat(testArray[5]))-(M8-parseFloat(testArray[8])));                
         //M5 = 2*(P7+M6)
         M5 = parseFloat( 2*(P7+M6)).toFixed(2);
     }
@@ -154,7 +163,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
         S2 = parseFloat(testArray[7]);
         U2 = parseFloat(testArray[11]);    
         M2 = parseFloat(testArray[2]);
-        N2 = parseFloat(testArray[3])
+        N2 = parseFloat(testArray[3]);
         O8 = parseFloat(S2);
         O10 = parseFloat(U2);
         O11 = L2;
@@ -219,7 +228,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             switch(roofId) {
                 case 2:
                     // nyereg teteo
-                    szerkezet = parseFloat((testArray[2]*2)*testArray[1]).toFixed(2);
+                    szerkezet = N4;
                     break;
                 case 3:
                     // felig kontyolt nyereg 
@@ -270,7 +279,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             switch(roofId) {
                 case 2:
                     // nyereg teteo
-                    szerkezet = ((testArray[2]*2)*testArray[1]).toFixed(2);
+                    szerkezet = N4;
                     break;
                 case 3:
                     // felig kontyolt nyereg                
@@ -464,7 +473,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             switch(roofId) {
                 case 2:
                     // nyereg teteo
-                    szerkezet = parseFloat(M4*(testArray[3]+1)*3).toFixed(2); //M4*(N2+1)*3
+                    szerkezet = N5*(N2+1)*3; 
                     break;
                 case 3:
                     szerkezet = parseFloat(M4*(testArray[3]+1)*3).toFixed(2);//=M4*(N2+1)*3
@@ -552,7 +561,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             let szerkezet = 0;
             switch(roofId) {
                 case 2:
-                    szerkezet = parseFloat(((testArray[2]*2)*testArray[1])).toFixed(2); 
+                    szerkezet = N4; 
                     break;
                 case 3:
                     szerkezet = M5;
@@ -600,7 +609,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             switch(roofId) {
                 case 2:
                     // nyereg teteo
-                    szerkezet = parseFloat((testArray[2]*2)*testArray[1]).toFixed(2); 
+                    szerkezet = N4; 
                     break;
                 case 3:
                     szerkezet = M5;
@@ -694,7 +703,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             switch(roofId) {
                 case 2:
                     // nyereg teteo
-                    szerkezet = parseFloat((testArray[2]*2)*testArray[1]).toFixed(2); 
+                    szerkezet = N5; 
                     break;
                 case 3:
                     szerkezet = M4;
@@ -875,7 +884,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             switch(roofId) {
                 case 2:
                     // nyereg teteo
-                    szerkezet = parseFloat((testArray[2]*2)*testArray[1]).toFixed(2); 
+                    szerkezet = N4; 
                     break;
                 case 3:
                     szerkezet = M5;
@@ -970,7 +979,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             switch(roofId) {
                 case 2:
                     // nyereg teteo
-                    szerkezet = parseFloat(parseFloat(testArray[2]*2)).toFixed(2); 
+                    szerkezet = M2; 
                     break;
                 case 3:
                     szerkezet = parseFloat(testArray[6]).toFixed(2);
@@ -1052,7 +1061,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             switch(roofId) {
                 case 2:
                     // nyereg teteo
-                    szerkezet = parseFloat(parseFloat((testArray[2]*2)*testArray[1])/25).toFixed(2); 
+                    szerkezet = N4/25; 
                     break;
                 case 3:
                     szerkezet = parseFloat(M5/25).toFixed(2);
@@ -1151,7 +1160,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             switch(roofId) {
                 case 2:
                     // nyereg teteo
-                    szerkezet = parseFloat((testArray[2]*2)*parseFloat(testArray[1])).toFixed(2); 
+                    szerkezet = N5; 
                     break;
                 case 3:
                     szerkezet = M4;
@@ -1199,7 +1208,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             switch(roofId) {
                 case 2:
                     // nyereg teteo
-                    szerkezet = parseFloat((parseFloat((testArray[2]*2)*testArray[1])/10)*testArray[1]).toFixed(2); 
+                    szerkezet = N4/10*O2; 
                     break;
                 case 3:
                     szerkezet = parseFloat(M5/10*parseFloat(testArray[4])).toFixed(2);
