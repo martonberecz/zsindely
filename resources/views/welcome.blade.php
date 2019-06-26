@@ -246,10 +246,10 @@ function getSummary(e,roofId){
     fetch('http://142.93.170.119/api/kalks')
     .then((res) => res.json())
     .then((data) => {                        
-        data.data.forEach(function (optional) {
-        
-        //get the optional values                
+        data.data.forEach(function (optional) {        
+        //get the optional values    
         mennyiseg = ((optional.id == optionalValues['id'+optional.id])? parseInt(optionalValues[optional.id]) : 0);
+        if(mennyiseg!=0){             
             let something = '<tr><td>'+optional.title+'</td>'+
                             '<td>'+
                                 ((finalOptionals.includes(optional.id,0))? '<button class="btn btn-outline-dark btn-sm" data-toggle="button" onclick="addToFinal('+optional.id+',event)" id="addToFinal_'+optional.id+'">+</button>':'')+
@@ -264,8 +264,9 @@ function getSummary(e,roofId){
             
                             $(".inner").append(something); 
            
-            calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis,roofId)
+                             calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis,roofId)
         
+                            }
     })         
     })
     optionals += `</tbody><tr><td>Mindösszesen nettó: </td><td colspan="5"></td><td><span id="AnyagGTotal"></span></td><td><span id="DijBGTotal"></span></td></tr>`+
