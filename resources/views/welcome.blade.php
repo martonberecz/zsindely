@@ -154,7 +154,7 @@ function getForm(id,imgId) {
                             `<input id="${field.fieldName}" type="text" name="${field.fieldName}" class="form-control" onblur="storeMain('${field.fieldName}','${field.id}')"></div>`;                                                                                                                                                                      
                     }
                 })
-                formfields += '<button class="btn btn-primary" onclick="getOptional(event,'+imgId+')">Submits</button></form></p></div></div>';
+                formfields += '<button class="btn btn-primary" onclick="getOptional(event,'+imgId+')">Elküld</button></form></p></div></div>';
                
                 if(formfields.length<300){
                     getForm(id,imgId)
