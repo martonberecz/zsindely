@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+    'host' => env('MAIL_HOST', 'jflfjoha.loginssl.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => env('1berecz.marton@gmail.com'),
+    'username' => env('info@zsindelyestetofedes.hu'),
 
-    'password' => env('*$t4r*P0rt*'),
+    'password' => env('Hoember2255'),
 
     /*
     |--------------------------------------------------------------------------
