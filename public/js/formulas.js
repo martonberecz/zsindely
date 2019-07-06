@@ -218,6 +218,10 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
                 anyagmozgatas = parseFloat(anyagmozgatas) + parseFloat(egysegar);
             }
             
+            if(optionalValues[id] == 0){
+                _('sum_row_'+id).className = " hide";
+            }
+            
         }
         
         if(optional!=1){

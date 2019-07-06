@@ -12,6 +12,11 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style>
+        .hide{
+            display: hidden;
+        }    
+    </style>
     </head>
     <body>
         <div class="container-fluid">            
@@ -86,6 +91,10 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
     if(id > 12){
         _("11").innerHTML = parseFloat(anyagmozgatas*0.1).toFixed(2);
         _("12").innerHTML = parseFloat(anyagmozgatas*0.05).toFixed(2);        
+    }   
+
+    if(egyseg == 0){
+        _('sum_row_'+id).className = " hide";
     }   
     
 }
@@ -228,7 +237,7 @@ function optionalSumFunc(id){
         let dijEgyseg = (amount * parseInt(_("dijegysegre"+id).innerHTML));
 
         _("anyagSum"+id).value=anyag;
-        _("sum"+id).value=dijEgyseg;  
+        _("sum"+id).value=dijEgyseg;         
     }
 }
 
@@ -250,7 +259,7 @@ function getSummary(e,roofId){
         //get the optional values    
         mennyiseg = ((optional.id == optionalValues['id'+optional.id])? parseInt(optionalValues[optional.id]) : 0);
         
-            let something = '<tr><td>'+optional.title+'</td>'+
+            let something = '<tr id="sum_row_'+optional.id+'"><td>'+optional.title+'</td>'+
                             '<td>'+
                                 ((finalOptionals.includes(optional.id,0))? '<button class="btn btn-outline-dark btn-sm" data-toggle="button" onclick="addToFinal('+optional.id+',event)" id="addToFinal_'+optional.id+'">+</button>':'')+
                             '</td>'+
@@ -261,12 +270,14 @@ function getSummary(e,roofId){
                             '<td id="anyagSum'+optional.id+'"></td>'+
                             '<td id="dijSum'+optional.id+'"></td>'+
                             '</tr>';
-            
-                            $(".inner").append(something); 
-           
-                             calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis,roofId)
-        
-                            
+                            //if(optionalValues.find('id'+optional.id)>0 && mennyiseg != 0){     
+                                $(".inner").append(something); 
+                                calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis,roofId)
+                            //}
+                            //if(optionalValues.find('id'+optional.id)){
+                               //  $(".inner").append(something); 
+                              //calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis,roofId)                            
+                            // }
     })         
     })
     optionals += `</tbody><tr><td>Mindösszesen nettó: </td><td colspan="5"></td><td><span id="AnyagGTotal"></span></td><td><span id="DijBGTotal"></span></td></tr>`+
