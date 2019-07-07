@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'jflfjoha.loginssl.com'),
+    'host' => env('MAIL_HOST', 'smtp.mailtrap.io'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 465),
+    'port' => env('MAIL_PORT', 2525),
 
     /*
     |--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'SSL'),
+    'encryption' => env('MAIL_ENCRYPTION', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,8 +84,8 @@ return [
     |
     */
 
-    'username' => env('info@zsindelyestetofedes.hu'),
-    'password' => env('Hoember2255'),
+    'username' => env('3a8db07aa452b4'),
+    'password' => env('caf5208fec2c94'),
 
     /*
     |--------------------------------------------------------------------------
