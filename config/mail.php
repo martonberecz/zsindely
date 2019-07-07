@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+    'host' => env('MAIL_HOST', 'smtp.mailtrap.io'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 465),
+    'port' => env('MAIL_PORT', 2525),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => env('1berecz.marton@gmail.com'),
+    'username' => env('8d34609a4b2f32'),
 
-    'password' => env('vfqlzyzcvxjeufhu'),
+    'password' => env('0e9d07115077b7'),
 
     /*
     |--------------------------------------------------------------------------
