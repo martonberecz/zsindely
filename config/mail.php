@@ -86,7 +86,7 @@ return [
 
     'username' => env('1berecz.marton@gmail.com'),
 
-    'password' => env('kzpvkutmcuirqayz'),
+    'password' => env('vfqlzyzcvxjeufhu'),
 
     /*
     |--------------------------------------------------------------------------
