@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'mail.zsindelyestetofedes.hu'),
+    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', ''),
+    'encryption' => env('MAIL_ENCRYPTION', 'SSL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => env('info@zsindelyestetofedes.hu'),
+    'username' => env('1berecz.marton@gmail.com'),
 
-    'password' => env('Hoember2255'),
+    'password' => env('*$t4r*P0rt*'),
 
     /*
     |--------------------------------------------------------------------------
