@@ -26,7 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        
         $mail = new PHPMailer();
 
         // Settings
@@ -47,6 +47,7 @@ class HomeController extends Controller
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
         
         $mail->send();
+        return view('home');
     }
 
     public function emailContent($orderId, $mailTo){
