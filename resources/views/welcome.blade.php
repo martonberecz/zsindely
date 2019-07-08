@@ -206,7 +206,7 @@ function storeMain(name, id, roofId){
                         `<input type="text" class="form-control" id="${optional.id}" placeholder="0" onkeyup="optionalSumFunc(${optional.id})"></td>`+
                         `<td>${optional.egyseg}</td><td id="egysegar${optional.id}">${optional.egysegar}</td><td id="dijegysegre${optional.id}">${optional.dijegysegre}</td>`+
                         `<td><input type="text" class="form-control" id="anyagSum${optional.id}" placeholder="0" disabled></td>`+
-                        `<td><input type="text" class="form-control" id="sum${optional.id}" placeholder="0" disabled></td></tr>`;
+                        `<td><input type="text" class="form-control" id="sum${optional.id}" placeholder="0" disabled></td></tr>`;                        
                     }
         })
                     
@@ -273,7 +273,7 @@ function getSummary(e,roofId){
                 '<td id="anyagSum'+optional.id+'"></td>'+
                 '<td id="dijSum'+optional.id+'"></td>'+
                 '</tr>';
-                    $(".inner").append(something); 
+                    $(".inner").append(something);                     
                     calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis,roofId)
         }
     })         
