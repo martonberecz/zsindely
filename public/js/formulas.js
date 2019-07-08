@@ -212,8 +212,8 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             var dijEgysegAr = optionalValues[id]*dijegyseg;
             _("anyag"+id).innerHTML = parseInt(egysegar);
             _("dij"+id).innerHTML = parseInt(dijegyseg);
-            _("anyagSum"+id).innerHTML = parseFloat(egysegAr).toFixed(2);
-            _("dijSum"+id).innerHTML = parseFloat(dijEgysegAr).toFixed(2);
+            _("anyagSum"+id).innerHTML = parseInt(egysegAr);
+            _("dijSum"+id).innerHTML = parseInt(dijEgysegAr);
             if(optionalValues[id]>0){
                 anyagmozgatas = parseFloat(anyagmozgatas) + parseFloat(egysegar);
             }
