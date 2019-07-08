@@ -330,15 +330,15 @@ function addToFinal(id,event){
     
 
     //net total
-    _("AnyagGTotal").innerHTML = parseFloat(egysegFullSum).toFixed(2);
-    _("DijBGTotal").innerHTML = parseFloat(dijFulSum).toFixed(2);
+    _("AnyagGTotal").innerHTML = parseInt(egysegFullSum);
+    _("DijBGTotal").innerHTML = parseInt(dijFulSum);
 
-    _("11").innerHTML = parseFloat(parseFloat(egysegFullSum).toFixed(2)*0.1).toFixed(2);
-    _("12").innerHTML = parseFloat(parseFloat(egysegFullSum).toFixed(2)*0.05).toFixed(2);
+    _("11").innerHTML = parseInt(parseFloat(egysegFullSum).toFixed(2)*0.1);
+    _("12").innerHTML = parseInt(parseFloat(egysegFullSum).toFixed(2)*0.05);
 
     //brut total
-    _("BAnyagGTotal").innerHTML = (egysegFullSum*1.25).toFixed(2);
-    _("BDijBGTotal").innerHTML = (dijFulSum*1.25).toFixed(2);
+    _("BAnyagGTotal").innerHTML = parseInt(egysegFullSum*1.25);
+    _("BDijBGTotal").innerHTML = parseInt(dijFulSum*1.25);
 
 }
 
