@@ -238,8 +238,8 @@ function optionalSumFunc(id){
             let anyag = (amount * parseInt(_("egysegar"+id).innerHTML));
             let dijEgyseg = (amount * parseInt(_("dijegysegre"+id).innerHTML));
 
-            _("anyagSum"+id).value=anyag;
-            _("sum"+id).value=dijEgyseg; 1
+            _("anyagSum"+id).value=parseInt(anyag);
+            _("sum"+id).value=parseInt(dijEgyseg);
     }
 
 }

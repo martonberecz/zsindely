@@ -219,7 +219,7 @@ function calculator(id, egysegar,dijegyseg,optional,roofId){
             }
             
             egysegFullSum = egysegFullSum + egysegAr;
-                    dijFulSum = dijFulSum + dijEgysegAr;
+            dijFulSum = dijFulSum + dijEgysegAr;
             // if(optionalValues[id] == 0){
             //     _('sum_row_'+id).className = " hide";
             // }
