@@ -73,24 +73,24 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
     _("anyag"+id).innerHTML = parseInt(egysegar);
     _("dij"+id).innerHTML = parseInt(dijegyseg);
 
-    _("anyagSum"+id).innerHTML = parseInt(sumEgysegAr);
-    _("dijSum"+id).innerHTML = parseInt(dijEgysegAr);
+    _("anyagSum"+id).innerHTML = parseFloat(sumEgysegAr).toFixed(2);
+    _("dijSum"+id).innerHTML = parseFloat(dijEgysegAr).toFixed(2);
 
-    _("AnyagGTotal").innerHTML = parseInt(egysegFullSum);
-    _("DijBGTotal").innerHTML = parseInt(dijFulSum);
+    _("AnyagGTotal").innerHTML = parseFloat(egysegFullSum).toFixed(2);
+    _("DijBGTotal").innerHTML = parseFloat(dijFulSum).toFixed(2);
 
     //The anyagbeszerzes & fuvarkoltseg
     if(parseInt(egyseg) > 0 && !finalOptionals.includes(id,0)){
-     anyagmozgatas = parseInt(egysegFullSum);
+     anyagmozgatas = parseFloat(egysegFullSum).toFixed(2);
     }
 
-    _("BAnyagGTotal").innerHTML = parseInt(egysegFullSum*1.25);
-    _("BDijBGTotal").innerHTML = parseInt(dijFulSum*1.25);
+    _("BAnyagGTotal").innerHTML = (egysegFullSum*1.25).toFixed(2);
+    _("BDijBGTotal").innerHTML = (dijFulSum*1.25).toFixed(2);
 
 
     if(id > 12){
-        _("11").innerHTML = parseInt(anyagmozgatas*0.1);
-        _("12").innerHTML = parseInt(anyagmozgatas*0.05);        
+        _("11").innerHTML = parseFloat(anyagmozgatas*0.1).toFixed(2);
+        _("12").innerHTML = parseFloat(anyagmozgatas*0.05).toFixed(2);        
     }   
     if(egyseg==0){
         _("sum_row_"+id).className = " hide";
@@ -330,15 +330,15 @@ function addToFinal(id,event){
     
 
     //net total
-    _("AnyagGTotal").innerHTML = parseInt(egysegFullSum);
-    _("DijBGTotal").innerHTML = parseInt(dijFulSum);
+    _("AnyagGTotal").innerHTML = parseFloat(egysegFullSum).toFixed(2);
+    _("DijBGTotal").innerHTML = parseFloat(dijFulSum).toFixed(2);
 
-    _("11").innerHTML = parseInt(parseFloat(egysegFullSum).toFixed(2)*0.1);
-    _("12").innerHTML = parseInt(parseFloat(egysegFullSum).toFixed(2)*0.05);
+    _("11").innerHTML = parseFloat(parseFloat(egysegFullSum).toFixed(2)*0.1).toFixed(2);
+    _("12").innerHTML = parseFloat(parseFloat(egysegFullSum).toFixed(2)*0.05).toFixed(2);
 
     //brut total
-    _("BAnyagGTotal").innerHTML = parseInt(egysegFullSum*1.25);
-    _("BDijBGTotal").innerHTML = parseInt(dijFulSum*1.25);
+    _("BAnyagGTotal").innerHTML = (egysegFullSum*1.25).toFixed(2);
+    _("BDijBGTotal").innerHTML = (dijFulSum*1.25).toFixed(2);
 
 }
 
@@ -371,7 +371,7 @@ function storeOrder(event){
         //console.log(orders);
     
    //fetch('http://localhost:8000/api/order', {
-    fetch('http://142.93.170.119/api/order',{    
+   fetch('http://142.93.170.119/api/order',{    
        method:'POST',
        headers:{
            'Accept': 'application/json, text/plain, */*',
