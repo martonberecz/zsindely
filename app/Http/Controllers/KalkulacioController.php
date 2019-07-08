@@ -52,7 +52,6 @@ class KalkulacioController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**

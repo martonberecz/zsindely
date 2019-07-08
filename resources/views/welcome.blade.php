@@ -67,6 +67,7 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
         dijFulSum = dijFulSum + dijEgysegAr;
     }
 
+    console.log('egyseg value:'+egyseg);
 
     _(id).innerHTML = egyseg;
     _("anyag"+id).innerHTML = parseInt(egysegar);
@@ -80,8 +81,7 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
 
     //The anyagbeszerzes & fuvarkoltseg
     if(parseInt(egyseg) > 0 && !finalOptionals.includes(id,0)){
-     anyagmozgatas = parseFloat(egysegFullSum).toFixed(2);      
-
+     anyagmozgatas = parseFloat(egysegFullSum).toFixed(2);
     }
 
     _("BAnyagGTotal").innerHTML = (egysegFullSum*1.25).toFixed(2);
@@ -92,10 +92,9 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
         _("11").innerHTML = parseFloat(anyagmozgatas*0.1).toFixed(2);
         _("12").innerHTML = parseFloat(anyagmozgatas*0.05).toFixed(2);        
     }   
-
-    if(egyseg == 0){
-        _('sum_row_'+id).className = " hide";
-    }   
+    if(egyseg==0){
+        _("sum_row_"+id).className = " hide";
+    }
     
 }
 
@@ -185,6 +184,8 @@ function storeMain(name, id, roofId){
 
     ///*****************************Optional page****************************************//////
     function getOptional(e, roofId) {
+
+        /***Generate random job id**/
         orderId = Math.floor(Math.random() * (199896 - roofId) + roofId);        
     e.preventDefault();
     _("main-row").innerHTML = "";
@@ -201,7 +202,7 @@ function storeMain(name, id, roofId){
             .then((data) => {
                 data.data.forEach(function (optional) {
                     if(optional.opcionalis == 1){
-                        optionals += `<tr><td>${optional.title}</td><td>`+
+                        optionals += `<tr id="row_${optional.id}"><td>${optional.title}</td><td>`+
                         `<input type="text" class="form-control" id="${optional.id}" placeholder="0" onkeyup="optionalSumFunc(${optional.id})"></td>`+
                         `<td>${optional.egyseg}</td><td id="egysegar${optional.id}">${optional.egysegar}</td><td id="dijegysegre${optional.id}">${optional.dijegysegre}</td>`+
                         `<td><input type="text" class="form-control" id="anyagSum${optional.id}" placeholder="0" disabled></td>`+
@@ -226,19 +227,21 @@ function minusFieldValidation(id){
     }
 }
 
+/**This is for the optionals page**/
 function optionalSumFunc(id){ 
     if(!minusFieldValidation(id)){
         alert("The field value has to be bigger than 0!")
-    }else{        
+    }else{
         let amount = _(id).value;
-        optionalValues['id'+id]=id;
-        optionalValues[id]= amount;      
-        let anyag = (amount * parseInt(_("egysegar"+id).innerHTML));
-        let dijEgyseg = (amount * parseInt(_("dijegysegre"+id).innerHTML));
+            optionalValues['id'+id]=id;
+            optionalValues[id] = amount; 
+            let anyag = (amount * parseInt(_("egysegar"+id).innerHTML));
+            let dijEgyseg = (amount * parseInt(_("dijegysegre"+id).innerHTML));
 
-        _("anyagSum"+id).value=anyag;
-        _("sum"+id).value=dijEgyseg;         
+            _("anyagSum"+id).value=anyag;
+            _("sum"+id).value=dijEgyseg; 1
     }
+
 }
 
 
@@ -258,28 +261,24 @@ function getSummary(e,roofId){
         data.data.forEach(function (optional) {        
         //get the optional values    
         mennyiseg = ((optional.id == optionalValues['id'+optional.id])? parseInt(optionalValues[optional.id]) : 0);
-        
+        if(mennyiseg !=0||(optional.opcionalis != 1)){    
             let something = '<tr id="sum_row_'+optional.id+'"><td>'+optional.title+'</td>'+
-                            '<td>'+
-                                ((finalOptionals.includes(optional.id,0))? '<button class="btn btn-outline-dark btn-sm" data-toggle="button" onclick="addToFinal('+optional.id+',event)" id="addToFinal_'+optional.id+'">+</button>':'')+
-                            '</td>'+
-                            '<td>'+optional.egyseg+'</td>'+
-                            '<td id="'+optional.id+'"  class="egysegVal">'+mennyiseg+'</td>'+
-                            '<td id="anyag'+optional.id+'"></td>'+
-                            '<td id="dij'+optional.id+'"></td>'+
-                            '<td id="anyagSum'+optional.id+'"></td>'+
-                            '<td id="dijSum'+optional.id+'"></td>'+
-                            '</tr>';
-                            //if(optionalValues.find('id'+optional.id)>0 && mennyiseg != 0){     
-                                $(".inner").append(something); 
-                                calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis,roofId)
-                            //}
-                            //if(optionalValues.find('id'+optional.id)){
-                               //  $(".inner").append(something); 
-                              //calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis,roofId)                            
-                            // }
+                '<td>'+
+                    ((finalOptionals.includes(optional.id,0))? '<button class="btn btn-outline-dark btn-sm" data-toggle="button" onclick="addToFinal('+optional.id+',event)" id="addToFinal_'+optional.id+'">+</button>':'')+
+                '</td>'+
+                '<td>'+optional.egyseg+'</td>'+
+                '<td id="'+optional.id+'"  class="egysegVal">'+mennyiseg+'</td>'+
+                '<td id="anyag'+optional.id+'"></td>'+
+                '<td id="dij'+optional.id+'"></td>'+
+                '<td id="anyagSum'+optional.id+'"></td>'+
+                '<td id="dijSum'+optional.id+'"></td>'+
+                '</tr>';
+                    $(".inner").append(something); 
+                    calculator(optional.id, optional.egysegar, optional.dijegysegre,optional.opcionalis,roofId)
+        }
     })         
     })
+    //***Total value at the end***//
     optionals += `</tbody><tr><td>Mindösszesen nettó: </td><td colspan="5"></td><td><span id="AnyagGTotal"></span></td><td><span id="DijBGTotal"></span></td></tr>`+
                     `<tr><td>Mindösszesen bruttó: </td><td colspan="5"></td><td><span id="BAnyagGTotal"></span></td><td><span id="BDijBGTotal" ></span></td></tr>`+
                         `</table></div><div id="emaildiv" class="email">`+
@@ -306,6 +305,7 @@ function validation(){
     }
 }
 
+/***handle the toogle fields**/
 function addToFinal(id,event){
     event.preventDefault();
     event.preventDefault();
@@ -370,7 +370,7 @@ function storeOrder(event){
         });
         //console.log(orders);
     
-   // fetch('http://localhost:8000/api/order', {
+   //fetch('http://localhost:8000/api/order', {
     fetch('http://142.93.170.119/api/order',{    
        method:'POST',
        headers:{
