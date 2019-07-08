@@ -73,24 +73,24 @@ function egyseg(id,egyseg,egysegar,dijegyseg){
     _("anyag"+id).innerHTML = parseInt(egysegar);
     _("dij"+id).innerHTML = parseInt(dijegyseg);
 
-    _("anyagSum"+id).innerHTML = parseFloat(sumEgysegAr).toFixed(2);
-    _("dijSum"+id).innerHTML = parseFloat(dijEgysegAr).toFixed(2);
+    _("anyagSum"+id).innerHTML = parseInt(sumEgysegAr);
+    _("dijSum"+id).innerHTML = parseInt(dijEgysegAr);
 
-    _("AnyagGTotal").innerHTML = parseFloat(egysegFullSum).toFixed(2);
-    _("DijBGTotal").innerHTML = parseFloat(dijFulSum).toFixed(2);
+    _("AnyagGTotal").innerHTML = parseInt(egysegFullSum);
+    _("DijBGTotal").innerHTML = parseInt(dijFulSum);
 
     //The anyagbeszerzes & fuvarkoltseg
     if(parseInt(egyseg) > 0 && !finalOptionals.includes(id,0)){
-     anyagmozgatas = parseFloat(egysegFullSum).toFixed(2);
+     anyagmozgatas = parseInt(egysegFullSum);
     }
 
-    _("BAnyagGTotal").innerHTML = (egysegFullSum*1.25).toFixed(2);
-    _("BDijBGTotal").innerHTML = (dijFulSum*1.25).toFixed(2);
+    _("BAnyagGTotal").innerHTML = parseInt(egysegFullSum*1.25);
+    _("BDijBGTotal").innerHTML = parseInt(dijFulSum*1.25);
 
 
     if(id > 12){
-        _("11").innerHTML = parseFloat(anyagmozgatas*0.1).toFixed(2);
-        _("12").innerHTML = parseFloat(anyagmozgatas*0.05).toFixed(2);        
+        _("11").innerHTML = parseInt(anyagmozgatas*0.1);
+        _("12").innerHTML = parseInt(anyagmozgatas*0.05);        
     }   
     if(egyseg==0){
         _("sum_row_"+id).className = " hide";
