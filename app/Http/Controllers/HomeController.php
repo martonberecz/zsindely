@@ -28,12 +28,29 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function calc()
+    {
+        return view('calculator');
+    }
+
+    public function articleView(){
+        return view('article');
+    }
+
+    public function articles(){
+        return view('articles');
+    }
+
+    public function contact(){
+        return view('contact');
+    }
+
     public function emailContent($orderId, $mailTo){
 
         $order = Order::where('orderId', $orderId)->get();
 
         
-       Mail::to($mailTo)->send(new OrderMail($order));
+      // Mail::to($mailTo)->send(new OrderMail($order));
     }
 
     public function sendOrder(Request $request){

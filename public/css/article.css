@@ -1,0 +1,199 @@
+@font-face {
+    font-family: PlayfairDisplay;
+    src: url("font/PlayfairDisplay-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: OpenSans;
+    src: url("font/OpenSans-Regular.ttf") format("opentype");
+}
+
+.container{
+    min-width: 80vw;
+}
+
+.title{
+    font-size: 1.8vw;
+    color: #8d8d8d;
+    text-align: center;
+    font-family: "PlayfairDisplay";    
+    letter-spacing: 0.3vw;
+}
+
+.date{
+    color: #A5A5A5;
+    font-size: 1vw;
+    width: 100%;    
+    text-align: center;
+}
+
+img{
+    width: 90%;
+}
+
+.blog-body{
+    color: #868686;
+    font-size: 1vw;
+    width: 100%;
+    font-family: "OpenSans";
+}
+
+.blog-index{
+    margin: auto;
+}
+
+a{
+    color: #74c6c3;
+}
+
+a:hover{
+    color: #eee;
+    text-decoration: none;    
+}
+
+.side-bar{
+}
+
+.side-bar-title{
+    letter-spacing: 0.1vw;
+}
+
+.form-group{        
+    min-width: 20vw;
+}
+
+.form-control{
+    border-radius: 0;
+    border-color: #DDD;
+    min-height: 5vh;
+}
+
+.card_sidebar{
+    min-height: 25vh;
+    border: 0.5vw solid #DDDFD4;
+    border-radius: 0;
+    width: 23vw;
+}
+
+.card-title{
+    text-align: center;
+    color: #7F7F7F;    
+    font-family: "PlayfairDisplay";  
+} 
+
+.btn{
+    background: #2E3F48;
+    border-color: #2E3F48;
+    border-radius: 0;
+    color: white;
+    min-height: 5vh;
+    font-size: 1.5vw;
+}
+
+.btn:hover{
+    background: white;
+    border-color: #2E3F48;
+    border-radius: 0;
+    color: #2E3F48;
+    min-height: 5vh;
+    font-size: 1.5vw;
+}
+
+footer{
+    /* background: #173C41; */
+    color: white;
+    font-size: 1vw;
+}
+
+.footer-body{
+    width: 80vw;
+    text-align: center;
+    margin: auto;
+}
+
+.page-item a{
+    color: #A5A5A5;
+}
+
+.page-item a:hover{
+    background: #2E3F48;
+    color: white;
+}
+
+
+.img-sidebar{
+    max-height: 15vh;
+    max-width: 17vw;
+}
+
+.title-view{
+    font-size: 3vw;
+}
+
+.view-main{
+    margin-top:15vh;
+    max-width: 60vw;
+    margin: auto;
+}
+
+footer{
+    margin-top: 15vh;
+}
+
+.fb-page{
+    width: 23vw;
+    height: 15vh;
+}
+
+.title-view{
+    font-size: 1vw;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 2vh;
+}
+
+p{
+    margin-top: 3vh;
+    margin-bottom: 5vh;
+}
+
+.view-link-color{
+    color: #46AAAE;
+    font-weight: bolder;
+}
+
+.card_view{
+ width: 100%;   
+ border-left: none;
+ border-right: none;
+}
+
+.card_head{
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+
+}
+
+.card_head img{
+    margin: auto;
+    max-width: 8vw;
+    max-height: 16vh;    
+   }
+
+.blog_nav{
+    color: #666;
+}
+
+.card_comment{
+    width: 100%;   
+    border-left: none;
+    border-right: none;
+   }
+   .card_comment img{
+    max-width: 4vw;
+    max-height: 8vh;    
+   }
+
+   .form-group_view input{
+       width: 60vw;
+   }

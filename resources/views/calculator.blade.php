@@ -19,9 +19,32 @@
     </style>
     </head>
     <body>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">Navbar</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                  
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="/roofcalculator">Roof calculator</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Articles</a>
+                        </li>             
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Contact Us</a>
+                        </li>                                  
+                      </ul>                      
+                    </div>
+                  </nav>
         <div class="container-fluid">            
-                <div class="row col col-md-12 main-row" id="main-row">
-                        <div class="col col-md-8 flex-container" id="main">
+                <div class="row col col-md-12 main-row mb-5" id="main-row">
+                        <div class="col col-md-8 flex-container mb-5" id="main">
                                 
                         </div>
                         <div class="col col-md-4 flex-container" id="main-side">
@@ -33,10 +56,47 @@
                                       </div>
                         </div>
                 </div>
+                
         </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         
-        
-            
+        <footer class="pt-4 my-md-5 pt-md-5 border-top mt-5" style="margin-top:90vh;">
+                <div class="row">
+                  <div class="col-12 col-md">
+                    <img class="mb-2" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+                    <small class="d-block mb-3 text-muted">&copy; 2017-2019</small>
+                  </div>
+                  <div class="col-6 col-md">
+                    <h5>Features</h5>
+                    <ul class="list-unstyled text-small">
+                      <li><a class="text-muted" href="#">Cool stuff</a></li>
+                      <li><a class="text-muted" href="#">Random feature</a></li>
+                      <li><a class="text-muted" href="#">Team feature</a></li>
+                      <li><a class="text-muted" href="#">Stuff for developers</a></li>
+                      <li><a class="text-muted" href="#">Another one</a></li>
+                      <li><a class="text-muted" href="#">Last time</a></li>
+                    </ul>
+                  </div>
+                  <div class="col-6 col-md">
+                    <h5>Resources</h5>
+                    <ul class="list-unstyled text-small">
+                      <li><a class="text-muted" href="#">Resource</a></li>
+                      <li><a class="text-muted" href="#">Resource name</a></li>
+                      <li><a class="text-muted" href="#">Another resource</a></li>
+                      <li><a class="text-muted" href="#">Final resource</a></li>
+                    </ul>
+                  </div>
+                  <div class="col-6 col-md">
+                    <h5>About</h5>
+                    <ul class="list-unstyled text-small">
+                      <li><a class="text-muted" href="#">Team</a></li>
+                      <li><a class="text-muted" href="#">Locations</a></li>
+                      <li><a class="text-muted" href="#">Privacy</a></li>
+                      <li><a class="text-muted" href="#">Terms</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </footer>           
 <script>
 let formfields = "";
 let testArray = [];

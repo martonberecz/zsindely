@@ -1,0 +1,13 @@
+#myCarousel {
+    height: 50vh;
+    width: 80vw;
+    margin: auto;
+}
+
+.carousel-item{
+    height: 50vh;
+}
+
+.marketing{
+    margin-top: 5vh;
+}
